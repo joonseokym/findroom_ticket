@@ -4,66 +4,129 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>키이스케이프 예약 직링 매크로</title>
+    <!-- Google Fonts Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* 리퀴드 글라스 (Glassmorphism) UI 스타일 */
+        /* Enhanced 리퀴드 글라스 (Glassmorphism) UI 스타일 */
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            --btn-bg: rgba(255, 255, 255, 0.15);
-            --btn-hover: rgba(255, 255, 255, 0.3);
-            --btn-active: rgba(255, 255, 255, 0.5);
-            --text-color: #ffffff;
-            --accent: #00f2fe;
+            --glass-bg: rgba(255, 255, 255, 0.05); /* 더 투명하게 */
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-highlight: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --btn-bg: rgba(255, 255, 255, 0.08);
+            --btn-hover: rgba(255, 255, 255, 0.15);
+            --btn-active: rgba(255, 255, 255, 0.25);
+            --text-color: #f8f9fa;
+            --text-muted: #adb5bd;
+            --accent-start: #00c6ff;
+            --accent-end: #0072ff;
+            --accent-glow: rgba(0, 198, 255, 0.5);
+            --bg-color-1: #0f2027;
+            --bg-color-2: #203a43;
+            --bg-color-3: #2c5364;
         }
 
         body {
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%, #2980b9 100%);
-            background-size: cover;
-            background-attachment: fixed;
+            font-family: 'Outfit', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-color-1) 0%, var(--bg-color-2) 50%, var(--bg-color-3) 100%);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;
             color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 배경 장식 원형 요소 */
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: float 10s infinite ease-in-out;
+        }
+        
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            background: #00c6ff;
+            top: -50px;
+            left: -50px;
+            animation-delay: 0s;
+        }
+        
+        .circle-2 {
+            width: 400px;
+            height: 400px;
+            background: #9d50bb;
+            bottom: -100px;
+            right: -100px;
+            animation-duration: 15s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+            100% { transform: translateY(0) scale(1); }
         }
 
         .container {
             background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px;
+            border-top: 1px solid var(--glass-highlight);
+            border-left: 1px solid var(--glass-highlight);
+            border-radius: 30px;
+            padding: 50px 40px;
             width: 90%;
             max-width: 650px;
-            box-shadow: var(--glass-shadow);
+            box-shadow: var(--glass-shadow), 
+                        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
             text-align: center;
+            position: relative;
+            z-index: 10;
         }
 
         h1 {
-            font-size: 28px;
-            margin-bottom: 30px;
+            font-size: 32px;
+            margin-bottom: 10px;
             font-weight: 700;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         h2 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            font-weight: 500;
-            color: #e0e0e0;
+            font-size: 16px;
+            margin-bottom: 35px;
+            font-weight: 400;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
         }
 
         .theme-buttons {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 12px;
+            margin-bottom: 40px;
             flex-wrap: wrap;
         }
 
@@ -71,33 +134,39 @@
             background: var(--btn-bg);
             border: 1px solid var(--glass-border);
             color: var(--text-color);
-            padding: 12px 24px;
-            font-size: 16px;
-            border-radius: 12px;
+            padding: 14px 28px;
+            font-size: 15px;
+            font-family: inherit;
+            font-weight: 500;
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(10px);
+            letter-spacing: 0.5px;
         }
 
         button:hover {
             background: var(--btn-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2),
+                        inset 0 1px 1px rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.3);
         }
 
         .theme-buttons button.active {
-            background: var(--accent);
-            color: #000;
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            color: #fff;
             font-weight: 700;
-            border-color: var(--accent);
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            border-color: transparent;
+            box-shadow: 0 0 20px var(--accent-glow), 
+                        inset 0 2px 2px rgba(255,255,255,0.3);
+            transform: translateY(-2px);
         }
 
         .time-container {
             display: none;
-            margin-bottom: 30px;
-            animation: fadeIn 0.4s ease forwards;
+            margin-bottom: 40px;
+            animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .time-container.active {
@@ -105,92 +174,155 @@
         }
 
         .time-container h3 {
-            font-size: 16px;
-            margin-bottom: 15px;
-            font-weight: 500;
-            color: #d1d1d1;
+            font-size: 15px;
+            margin-bottom: 20px;
+            font-weight: 300;
+            color: var(--text-muted);
+        }
+
+        .time-container h3 .highlight-text {
+            color: #fff;
+            font-weight: 600;
+            background: linear-gradient(90deg, var(--accent-start), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .time-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
             gap: 12px;
             margin-top: 15px;
         }
 
         .time-btn {
-            padding: 12px 10px;
-            font-size: 15px;
+            padding: 14px 10px;
+            font-size: 16px;
             font-weight: 500;
-            letter-spacing: 0.5px;
+            border-radius: 14px;
+            letter-spacing: 1px;
         }
 
         .time-btn.selected {
-            background: var(--btn-active);
-            border-color: #fff;
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
             color: #fff;
-            font-weight: 700;
-            box-shadow: 0 0 15px rgba(255,255,255,0.4);
-            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255,255,255,0.1),
+                        inset 0 0 0 1px rgba(255,255,255,0.3);
+            transform: scale(1.03);
+            position: relative;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+        .time-btn.selected::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 16px;
+            background: linear-gradient(45deg, var(--accent-start), transparent);
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .submit-section {
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 1px solid var(--glass-border);
+            padding-top: 35px;
+            position: relative;
+        }
+        
+        .submit-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
         }
 
         .submit-btn {
-            background: linear-gradient(45deg, #00f2fe, #4facfe);
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
             color: #fff;
             font-weight: 700;
-            font-size: 18px;
-            padding: 16px 45px;
+            font-size: 20px;
+            padding: 18px 50px;
             border: none;
-            border-radius: 30px;
-            letter-spacing: 1px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-            box-shadow: 0 8px 20px rgba(79, 172, 254, 0.4);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 50px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            box-shadow: 0 10px 25px rgba(0, 114, 255, 0.4),
+                        inset 0 2px 2px rgba(255,255,255,0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             width: 100%;
-            max-width: 300px;
+            max-width: 320px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
         }
 
         .submit-btn:hover:not(:disabled) {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 12px 25px rgba(79, 172, 254, 0.6);
-            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 114, 255, 0.6),
+                        inset 0 2px 2px rgba(255,255,255,0.3);
+        }
+
+        .submit-btn:hover:not(:disabled)::before {
+            left: 150%;
         }
         
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 198, 255, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 198, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 198, 255, 0); }
+        }
+
+        .submit-btn:not(:disabled) {
+            animation: pulse 2s infinite;
+        }
+
         .submit-btn:disabled {
-            background: rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.3);
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
             border: 1px solid rgba(255,255,255,0.1);
+            animation: none;
         }
 
         .status-text {
-            margin-top: 20px;
-            font-size: 15px;
-            color: #ddd;
-            min-height: 22px;
-            font-weight: 500;
+            margin-top: 25px;
+            font-size: 14px;
+            color: var(--text-muted);
+            min-height: 20px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
         }
 
         .highlight-text {
-            color: var(--accent);
-            font-weight: 700;
+            color: #fff;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
+    <!-- Background Decorators -->
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
 
     <div class="container">
         <h1>키이스케이프 예약 직링 매크로</h1>
