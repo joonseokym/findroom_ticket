@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>키이스케이프 예약 직링 매크로</title>
+    <style>
+        /* 리퀴드 글라스 (Glassmorphism) UI 스타일 */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --btn-bg: rgba(255, 255, 255, 0.15);
+            --btn-hover: rgba(255, 255, 255, 0.3);
+            --btn-active: rgba(255, 255, 255, 0.5);
+            --text-color: #ffffff;
+            --accent: #00f2fe;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%, #2980b9 100%);
+            background-size: cover;
+            background-attachment: fixed;
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            width: 90%;
+            max-width: 650px;
+            box-shadow: var(--glass-shadow);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #e0e0e0;
+        }
+
+        .theme-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: var(--btn-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-color);
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        button:hover {
+            background: var(--btn-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .theme-buttons button.active {
+            background: var(--accent);
+            color: #000;
+            font-weight: 700;
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+        }
+
+        .time-container {
+            display: none;
+            margin-bottom: 30px;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .time-container.active {
+            display: block;
+        }
+
+        .time-container h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 500;
+            color: #d1d1d1;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .time-btn {
+            padding: 12px 10px;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .time-btn.selected {
+            background: var(--btn-active);
+            border-color: #fff;
+            color: #fff;
+            font-weight: 700;
+            box-shadow: 0 0 15px rgba(255,255,255,0.4);
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .submit-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #00f2fe, #4facfe);
+            color: #fff;
+            font-weight: 700;
+            font-size: 18px;
+            padding: 16px 45px;
+            border: none;
+            border-radius: 30px;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(79, 172, 254, 0.4);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(79, 172, 254, 0.6);
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+        }
+        
+        .submit-btn:disabled {
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.4);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .status-text {
+            margin-top: 20px;
+            font-size: 15px;
+            color: #ddd;
+            min-height: 22px;
+            font-weight: 500;
+        }
+
+        .highlight-text {
+            color: var(--accent);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>키이스케이프 예약 직링 매크로</h1>
+        
+        <h2>테마를 선택하세요</h2>
+        <div class="theme-buttons">
+            <button onclick="selectTheme('EDDY', this)">FILM BY EDDY</button>
+            <button onclick="selectTheme('STEVE', this)">FILM BY STEVE</button>
+            <button onclick="selectTheme('BOB', this)">FILM BY BOB</button>
+        </div>
+
+        <div id="timeWrapper">
+            <!-- 선택한 테마의 시간 버튼들이 여기에 나타납니다 -->
+        </div>
+
+        <div class="submit-section">
+            <form id="reservationForm" action="https://keyescape.com/reservation2.php" method="POST" target="_blank">
+                <!-- 기존 폼 데이터 보존 (지점 정보 등) -->
+                <input type="hidden" name="zizumNum" value="18">
+                <input type="hidden" name="themeNum" id="form-themeNum" value="">
+                <input type="hidden" name="themeInfoNum" id="form-themeInfoNum" value="">
+                <input type="hidden" name="revDays" value="2026-03-10">
+                
+                <!-- 자바스크립트로 변경될 동적 데이터 -->
+                <input type="hidden" name="themeName" id="form-themeName" value="">
+                <input type="hidden" name="revTimes" id="form-revTimes" value="">
+                <input type="hidden" name="themeTimeNum" id="form-themeTimeNum" value="">
+
+                <button type="button" class="submit-btn" id="submitBtn" onclick="submitForm()" disabled>직링 연결하기</button>
+            </form>
+            <div class="status-text" id="statusText">테마와 시간을 선택해주세요.</div>
+        </div>
+    </div>
+
+    <script>
+        // 각 테마별 시간 및 대응하는 themeTimeNum 데이터
+        const themesData = {
+            'EDDY': {
+                name: 'FILM BY EDDY',
+                themeNum: '57',
+                themeInfoNum: '34',
+                times: ['09:15', '10:45', '12:15', '13:45', '15:20', '16:50', '18:20', '19:50', '21:25'],
+                nums: ['2107', '1810', '1811', '1812', '1813', '1814', '1815', '1816', '1817']
+            },
+            'STEVE': {
+                name: 'FILM BY STEVE',
+                themeNum: '58',
+                themeInfoNum: '35',
+                times: ['09:40', '10:40', '11:40', '12:40', '13:40', '14:40', '15:40', '16:40', '17:40', '18:40', '19:40', '20:40', '21:40'],
+                nums: ['2303', '1828', '1829', '1830', '1831', '1832', '1833', '1834', '1835', '1836', '1837', '2036', '1838']
+            },
+            'BOB': {
+                name: 'FILM BY BOB',
+                themeNum: '59',
+                themeInfoNum: '36',
+                times: ['09:10', '10:35', '12:00', '13:25', '14:50', '16:20', '17:45', '19:15', '20:40', '22:05'],
+                nums: ['1983', '1984', '2815', '1985', '2037', '1986', '1987', '2038', '2039', '2040']
+            }
+        };
+
+        let currentTheme = null;
+        let currentTime = null;
+        let currentNum = null;
+
+        // 테마 선택 함수
+        function selectTheme(themeKey, btnElement) {
+            currentTheme = themesData[themeKey];
+            currentTime = null;
+            currentNum = null;
+            
+            // 모든 테마 버튼 비활성화 후 클릭된 버튼 활성화
+            document.querySelectorAll('.theme-buttons button').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // Form 데이터 초기화 및 테마 이름 세팅
+            document.getElementById('form-themeName').value = currentTheme.name;
+            document.getElementById('form-themeNum').value = currentTheme.themeNum;
+            document.getElementById('form-themeInfoNum').value = currentTheme.themeInfoNum;
+            document.getElementById('form-revTimes').value = "";
+            document.getElementById('form-themeTimeNum').value = "";
+
+            // 해당 테마의 시간 그리드 렌더링
+            renderTimeGrid(themeKey);
+            updateStatus();
+        }
+
+        // 시간 버튼 렌더링 함수
+        function renderTimeGrid(themeKey) {
+            const wrapper = document.getElementById('timeWrapper');
+            const data = themesData[themeKey];
+            
+            let html = `<div class="time-container active" id="times-${themeKey}">
+                            <h3><span class="highlight-text">${data.name}</span> 시간 선택</h3>
+                            <div class="time-grid">`;
+            
+            for(let i=0; i<data.times.length; i++) {
+                html += `<button class="time-btn" onclick="selectTime('${data.times[i]}', '${data.nums[i]}', this)">${data.times[i]}</button>`;
+            }
+            
+            html += `</div></div>`;
+            wrapper.innerHTML = html;
+        }
+
+        // 시간 선택 함수
+        function selectTime(time, num, btnElement) {
+            currentTime = time;
+            currentNum = num;
+
+            // 모든 시간 버튼 선택 해제 후 클릭된 버튼 선택
+            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('selected'));
+            btnElement.classList.add('selected');
+
+            // Form 데이터 세팅
+            document.getElementById('form-revTimes').value = time;
+            document.getElementById('form-themeTimeNum').value = num;
+
+            updateStatus();
+        }
+
+        // 상태 텍스트 및 제출 버튼 업데이트
+        function updateStatus() {
+            const statusText = document.getElementById('statusText');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (currentTheme && currentTime) {
+                statusText.innerHTML = `<span class="highlight-text">${currentTheme.name}</span> - <span class="highlight-text">${currentTime}</span> 선택됨`;
+                submitBtn.disabled = false;
+            } else if (currentTheme) {
+                statusText.innerText = "예약할 시간을 선택해주세요.";
+                submitBtn.disabled = true;
+            } else {
+                statusText.innerText = "테마와 시간을 선택해주세요.";
+                submitBtn.disabled = true;
+            }
+        }
+
+        // 폼 제출 (직링 연결하기) 함수
+        function submitForm() {
+            if (currentTheme && currentTime) {
+                // 직링 새 탭에서 열기
+                document.getElementById('reservationForm').submit();
+            }
+        }
+    </script>
+</body>
+</html>
