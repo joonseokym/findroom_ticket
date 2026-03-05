@@ -387,16 +387,17 @@
         let currentTime = null;
         let currentNum = null;
 
-        // 오늘 날짜 계산 및 설정 (YYYY-MM-DD 포맷)
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        const todayStr = `${year}-${month}-${day}`;
+        // 오늘 + 6일 날짜 계산 및 설정 (YYYY-MM-DD 포맷)
+        const targetDate = new Date();
+        targetDate.setDate(targetDate.getDate() + 6);
+        const year = targetDate.getFullYear();
+        const month = String(targetDate.getMonth() + 1).padStart(2, '0');
+        const day = String(targetDate.getDate()).padStart(2, '0');
+        const targetDateStr = `${year}-${month}-${day}`;
 
         // 페이지 로드 시 날짜 폼에 넣기
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('form-revDays').value = todayStr;
+            document.getElementById('form-revDays').value = targetDateStr;
         });
 
         // 테마 선택 함수
@@ -460,7 +461,7 @@
             const submitBtn = document.getElementById('submitBtn');
 
             if (currentTheme && currentTime) {
-                statusText.innerHTML = `<span class="highlight-text">${todayStr}</span> <span class="highlight-text">${currentTheme.name}</span> - <span class="highlight-text">${currentTime}</span> 선택됨`;
+                statusText.innerHTML = `<span class="highlight-text">${targetDateStr}</span> <span class="highlight-text">${currentTheme.name}</span> - <span class="highlight-text">${currentTime}</span> 선택됨`;
                 submitBtn.disabled = false;
             } else if (currentTheme) {
                 statusText.innerText = "예약할 시간을 선택해주세요.";
