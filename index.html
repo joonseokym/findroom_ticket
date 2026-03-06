@@ -52,11 +52,9 @@
             background-size: 200% 200%;
             animation: gradientBG 15s ease infinite;
             color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
             position: relative;
+            /* Flex layout on body is prone to vertical clipping on mobile. 
+               app-wrapper uses margin: 0 auto; instead. */
         }
 
         @keyframes gradientBG {
