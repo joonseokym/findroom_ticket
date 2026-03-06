@@ -105,7 +105,7 @@
 
         .app-wrapper {
             width: 95%;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 50px 0;
             position: relative;
@@ -288,36 +288,53 @@
             display: flex;
             gap: 30px;
             align-items: flex-start;
-            flex-wrap: wrap;
+            justify-content: center;
             width: 100%;
         }
 
-        .main-content {
+        /* 완벽한 중앙 정렬을 위한 투명 스페이서 */
+        .layout-spacer {
             flex: 1;
-            min-width: 300px;
+            min-width: 250px;
+            max-width: 350px;
+        }
+
+        .main-content {
+            flex: 0 0 100%;
+            max-width: 650px;
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
+            box-sizing: border-box;
         }
 
         .side-content {
-            flex: 0 0 350px;
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
             position: sticky;
             top: 30px;
+            box-sizing: border-box;
         }
 
-        @media (max-width: 900px) {
-            .side-content {
-                flex: 1 1 100%;
-                width: 100%;
-                position: static;
-                order: 2;
-                margin-top: 30px;
+        @media (max-width: 1150px) {
+            .layout-spacer {
+                display: none;
             }
 
             .layout-wrapper {
                 flex-direction: column;
-                gap: 0;
+                align-items: center;
+            }
+
+            .side-content {
+                flex: none;
+                width: 100%;
+                max-width: 650px;
+                position: static;
+                order: 2;
+                margin-top: 10px;
             }
         }
 
@@ -553,6 +570,8 @@
         <h1 class="main-title">키이스케이프 예약 직링 매크로</h1>
 
         <div class="layout-wrapper">
+            <div class="layout-spacer"></div>
+
             <div class="main-content glass-panel">
                 <h2>지점을 선택하세요</h2>
 
