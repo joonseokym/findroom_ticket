@@ -228,6 +228,15 @@
             -webkit-text-fill-color: transparent;
         }
 
+        /* Server Time Sync Indicator */
+        .server-time-status {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 5px;
+            margin-bottom: -5px;
+        }
+
         /* Countdown Style */
         .countdown-box {
             background: rgba(0, 0, 0, 0.2);
@@ -255,6 +264,83 @@
             font-variant-numeric: tabular-nums;
             letter-spacing: 1px;
             text-shadow: 0 0 10px rgba(255, 222, 89, 0.4);
+        }
+
+        /* Ranking Board Style */
+        .ranking-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .ranking-container h3 {
+            margin-top: 5px;
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ranking-container h3 .update-status {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        .ranking-table th {
+            color: var(--text-muted);
+            font-weight: 500;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ranking-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .ranking-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .rank-medal {
+            width: 18px;
+            height: 18px;
+            vertical-align: middle;
+        }
+
+        .rank-num {
+            font-weight: bold;
+            color: #ccc;
+        }
+
+        .rank-theme {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .rank-rating {
+            color: #ffde59;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .countdown-box.active {
+            display: flex;
         }
 
         .time-grid {
@@ -412,6 +498,23 @@
     <div class="container">
         <h1>키이스케이프 예약 직링 매크로</h1>
 
+        <div class="ranking-container" id="rankingBox" style="display: none;">
+            <h3>전체 테마 순위 TOP 🔥 <span class="update-status" id="rankingUpdateStatus">업데이트 중...</span></h3>
+            <table class="ranking-table">
+                <thead>
+                    <tr>
+                        <th width="15%">순위</th>
+                        <th width="30%">지점</th>
+                        <th width="40%">테마명</th>
+                        <th width="15%" style="text-align: right;">평점</th>
+                    </tr>
+                </thead>
+                <tbody id="rankingTableBody">
+                    <!-- 자바스크립트로 랭킹 정보가 채워집니다 -->
+                </tbody>
+            </table>
+        </div>
+
         <h2>지점을 선택하세요</h2>
 
         <div class="theme-buttons" id="branchWrapper">
@@ -419,8 +522,13 @@
         </div>
 
         <div class="countdown-box" id="countdownBox">
-            <span id="countdownLabel">예약 오픈까지</span>
-            <span class="countdown-time" id="countdownTimer">00:00:00</span>
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span id="countdownLabel">예약 오픈까지</span>
+                    <span class="countdown-time" id="countdownTimer">00:00:00</span>
+                </div>
+                <div class="server-time-status" id="serverTimeStatus">서버 시간 동기화 중...</div>
+            </div>
         </div>
 
         <div id="themeListWrapper" style="display: none;">
@@ -523,6 +631,7 @@
         let currentTime = null;
         let currentNum = null;
         let countdownInterval = null;
+        let serverTimeOffset = 0; // Local_Time + ServerTimeOffset = Server_Time 
 
         // 오늘 + 6일 날짜 계산 및 설정 (YYYY-MM-DD 포맷)
         const targetDate = new Date();
@@ -535,7 +644,150 @@
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('form-revDays').value = targetDateStr;
             renderBranches();
+            syncServerTime();
+            loadRankings();
         });
+
+        async function syncServerTime() {
+            try {
+                // Fetch header from keyescape.com via AllOrigins
+                const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://keyescape.com/'));
+                if (response.ok) {
+                    const data = await response.json();
+
+                    // AllOrigins provides the response headers in data.status
+                    // But an easier way is to just parse the 'Date' from headers if available, or just rely on the API receiving time.
+                    // Because getting raw headers from proxy usually involves data.headers, but allorigins might not expose it perfectly.
+                    // Let's check headers.
+                    let serverDateStr = null;
+                    if (data.headers && data.headers.date) {
+                        serverDateStr = data.headers.date;
+                    } else if (data.status && data.status.headers && data.status.headers.Date) { // alternative format
+                        serverDateStr = data.status.headers.Date;
+                    } else {
+                        // Fallback proxy
+                        const fallbackProxy = await fetch('https://corsproxy.io/?https://keyescape.com/', { method: 'HEAD' });
+                        serverDateStr = fallbackProxy.headers.get('date');
+                    }
+
+                    if (serverDateStr) {
+                        const serverTime = new Date(serverDateStr).getTime();
+                        const localTime = new Date().getTime();
+                        serverTimeOffset = serverTime - localTime;
+
+                        document.getElementById('serverTimeStatus').innerHTML = `✅ 키이스케이프 서버 시간과 동기화됨`;
+                    } else {
+                        document.getElementById('serverTimeStatus').innerHTML = `⚠️ 서버 시간 동기화 실패 (로컬 시간 적용)`;
+                    }
+                }
+            } catch (error) {
+                console.error("Server time sync failed", error);
+                document.getElementById('serverTimeStatus').innerHTML = `⚠️ 서버 시간 동기화 실패 (로컬 시간 적용)`;
+            }
+        }
+
+        async function loadRankings() {
+            const rankingBox = document.getElementById('rankingBox');
+            const tbody = document.getElementById('rankingTableBody');
+            const status = document.getElementById('rankingUpdateStatus');
+
+            // 캐싱 확인 (24시간)
+            const cachedRanking = localStorage.getItem('coloryRanking');
+            const cachedTime = localStorage.getItem('coloryRankingTime');
+            const now = new Date().getTime();
+
+            // 우리 매크로에 있는 테마명 리스트 평탄화
+            const macroThemes = new Set();
+            for (const branch in branchesData) {
+                for (const t in branchesData[branch].themes) {
+                    macroThemes.add(branchesData[branch].themes[t].name);
+                }
+            }
+
+            let htmlString = "";
+            let updateDateStr = "";
+
+            if (cachedRanking && cachedTime && (now - parseInt(cachedTime)) < 24 * 60 * 60 * 1000) {
+                // 캐시 사용
+                htmlString = cachedRanking;
+                const d = new Date(parseInt(cachedTime));
+                updateDateStr = `${d.getMonth() + 1}/${d.getDate()} 기준`;
+
+                renderTable(htmlString, macroThemes, updateDateStr);
+            } else {
+                // 새로 Fetch
+                try {
+                    const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://colory.mooo.com/bba/ranking'));
+                    if (response.ok) {
+                        const data = await response.json();
+                        htmlString = data.contents;
+
+                        localStorage.setItem('coloryRanking', htmlString);
+                        localStorage.setItem('coloryRankingTime', now.toString());
+
+                        const d = new Date();
+                        updateDateStr = `${d.getMonth() + 1}/${d.getDate()} 기준`;
+
+                        renderTable(htmlString, macroThemes, updateDateStr);
+                    } else {
+                        rankingBox.style.display = 'none';
+                    }
+                } catch (err) {
+                    console.error("Ranking fetch failed", err);
+                    rankingBox.style.display = 'none';
+                }
+            }
+
+            function renderTable(html, allowedThemes, dateStr) {
+                // Parse HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const rows = doc.querySelectorAll('tbody tr');
+
+                let renderHtml = '';
+                let count = 0;
+
+                rows.forEach(row => {
+                    const themeNameCell = row.querySelector('.rank-3');
+                    if (!themeNameCell) return;
+
+                    const themeName = themeNameCell.innerText.trim();
+
+                    if (allowedThemes.has(themeName)) {
+                        count++;
+
+                        let rankVal = row.querySelector('.rank-1').innerHTML;
+                        // Replace img sources if it's a medal
+                        rankVal = rankVal.replace('src="/', 'src="https://colory.mooo.com/');
+                        if (rankVal.includes('img')) {
+                            rankVal = rankVal.replace('<img ', '<img class="rank-medal" ');
+                        } else {
+                            rankVal = `<span class="rank-num">${rankVal}</span>`;
+                        }
+
+                        const branchName = row.querySelector('.rank-2').innerText.replace('키이스케이프 ', ''); // 키이스 접두어 제거
+                        const rating = row.querySelector('.rank-4').innerText;
+
+                        renderHtml += `
+                            <tr>
+                                <td>${rankVal}</td>
+                                <td>${branchName}</td>
+                                <td class="rank-theme">${themeName}</td>
+                                <td class="rank-rating">${rating}</td>
+                            </tr>
+                        `;
+                    }
+                });
+
+                if (count > 0) {
+                    tbody.innerHTML = renderHtml;
+                    status.innerText = dateStr;
+                    rankingBox.style.display = 'block';
+                } else {
+                    rankingBox.style.display = 'none';
+                }
+            }
+        }
 
         function renderBranches() {
             const wrapper = document.getElementById('branchWrapper');
@@ -674,7 +926,8 @@
             const [openHour, openMin] = openTimeString.split(':').map(Number);
 
             function updateTimer() {
-                const now = new Date();
+                // 현재 시간을 동기화된 서버 시간으로 보정
+                const now = new Date(new Date().getTime() + serverTimeOffset);
 
                 // Set target object to today's openTime
                 let target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), openHour, openMin, 0);
