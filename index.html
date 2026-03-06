@@ -113,7 +113,7 @@
             border-radius: 30px;
             padding: 50px 40px;
             width: 90%;
-            max-width: 650px;
+            max-width: 1100px;
             box-shadow: var(--glass-shadow),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.05);
             text-align: center;
@@ -268,12 +268,51 @@
 
         /* Ranking Board Style */
         .ranking-container {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin-bottom: 25px;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            width: 100%;
+            box-sizing: border-box;
             box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .layout-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .side-content {
+            flex: 0 0 350px;
+            position: sticky;
+            top: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .side-content {
+                flex: 1 1 100%;
+                width: 100%;
+                position: static;
+                order: 2;
+                margin-top: 30px;
+            }
+
+            .layout-wrapper {
+                flex-direction: column;
+                gap: 0;
+            }
         }
 
         .ranking-container h3 {
@@ -507,75 +546,83 @@
     <div class="container">
         <h1>키이스케이프 예약 직링 매크로</h1>
 
-        <div class="ranking-container" id="rankingBox" style="display: none;">
-            <h3>전체 테마 순위 TOP 🔥 <span class="update-status" id="rankingUpdateStatus">업데이트 중...</span></h3>
-            <table class="ranking-table">
-                <thead>
-                    <tr>
-                        <th width="15%">순위</th>
-                        <th width="30%">지점</th>
-                        <th width="40%">테마명</th>
-                        <th width="15%" style="text-align: right;">평점</th>
-                    </tr>
-                </thead>
-                <tbody id="rankingTableBody">
-                    <!-- 자바스크립트로 랭킹 정보가 채워집니다 -->
-                </tbody>
-            </table>
-        </div>
+        <div class="layout-wrapper">
+            <div class="main-content">
+                <h2>지점을 선택하세요</h2>
 
-        <h2>지점을 선택하세요</h2>
-
-        <div class="theme-buttons" id="branchWrapper">
-            <!-- 지점 버튼들이 여기에 나타납니다 -->
-        </div>
-
-        <div class="countdown-box" id="countdownBox">
-            <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <span id="countdownLabel">예약 오픈까지</span>
-                    <span class="countdown-time" id="countdownTimer">00:00:00</span>
+                <div class="theme-buttons" id="branchWrapper">
+                    <!-- 지점 버튼들이 여기에 나타납니다 -->
                 </div>
-                <div class="server-time-status" id="serverTimeStatus">서버 시간 동기화 중...</div>
-            </div>
-        </div>
 
-        <div id="themeListWrapper" style="display: none;">
-            <h2 style="margin-top: -10px;">테마를 선택하세요</h2>
+                <div class="countdown-box" id="countdownBox">
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span id="countdownLabel">예약 오픈까지</span>
+                            <span class="countdown-time" id="countdownTimer">00:00:00</span>
+                        </div>
+                        <div class="server-time-status" id="serverTimeStatus">서버 시간 동기화 중...</div>
+                    </div>
+                </div>
 
-            <div class="guide-box" id="memoryGuide" style="display: none;">
-                💡 <strong>추천 체험 순서:</strong> FILM BY EDDY ➔ FILM BY STEVE ➔ FILM BY BOB<br>
-                <span style="font-size: 13px; color: var(--text-muted); display: block; margin-top: 6px;">
-                    순서와 무관하게 즐기실 수 있지만, 권장 순서대로 체험하시면 숨겨진 디테일을 더욱 잘 발견하실 수 있습니다.
-                </span>
-            </div>
+                <div id="themeListWrapper" style="display: none; width: 100%;">
+                    <h2 style="margin-top: -10px;">테마를 선택하세요</h2>
 
-            <div class="theme-buttons" id="themeWrapper">
-                <!-- 선택한 지점의 테마 버튼들이 여기에 나타납니다 -->
-            </div>
-        </div>
+                    <div class="guide-box" id="memoryGuide" style="display: none;">
+                        💡 <strong>추천 체험 순서:</strong> FILM BY EDDY ➔ FILM BY STEVE ➔ FILM BY BOB<br>
+                        <span style="font-size: 13px; color: var(--text-muted); display: block; margin-top: 6px;">
+                            순서와 무관하게 즐기실 수 있지만, 권장 순서대로 체험하시면 숨겨진 디테일을 더욱 잘 발견하실 수 있습니다.
+                        </span>
+                    </div>
 
-        <div id="timeWrapper">
-            <!-- 선택한 테마의 시간 버튼들이 여기에 나타납니다 -->
-        </div>
+                    <div class="theme-buttons" id="themeWrapper">
+                        <!-- 선택한 지점의 테마 버튼들이 여기에 나타납니다 -->
+                    </div>
+                </div>
 
-        <div class="submit-section">
-            <form id="reservationForm" action="https://keyescape.com/reservation2.php" method="POST" target="_blank">
-                <!-- 기존 폼 데이터 보존 (지점 정보 등) -->
-                <input type="hidden" name="zizumNum" id="form-zizumNum" value="">
-                <input type="hidden" name="themeNum" id="form-themeNum" value="">
-                <input type="hidden" name="themeInfoNum" id="form-themeInfoNum" value="">
-                <input type="hidden" name="revDays" id="form-revDays" value="">
+                <div id="timeWrapper" style="width: 100%;">
+                    <!-- 선택한 테마의 시간 버튼들이 여기에 나타납니다 -->
+                </div>
 
-                <!-- 자바스크립트로 변경될 동적 데이터 -->
-                <input type="hidden" name="themeName" id="form-themeName" value="">
-                <input type="hidden" name="revTimes" id="form-revTimes" value="">
-                <input type="hidden" name="themeTimeNum" id="form-themeTimeNum" value="">
+                <div class="submit-section" style="width: 100%;">
+                    <form id="reservationForm" action="https://keyescape.com/reservation2.php" method="POST"
+                        target="_blank">
+                        <!-- 기존 폼 데이터 보존 (지점 정보 등) -->
+                        <input type="hidden" name="zizumNum" id="form-zizumNum" value="">
+                        <input type="hidden" name="themeNum" id="form-themeNum" value="">
+                        <input type="hidden" name="themeInfoNum" id="form-themeInfoNum" value="">
+                        <input type="hidden" name="revDays" id="form-revDays" value="">
 
-                <button type="button" class="submit-btn" id="submitBtn" onclick="submitForm()" disabled>직링 연결하기</button>
-            </form>
-            <div class="status-text" id="statusText">테마와 시간을 선택해주세요.</div>
-        </div>
+                        <!-- 자바스크립트로 변경될 동적 데이터 -->
+                        <input type="hidden" name="themeName" id="form-themeName" value="">
+                        <input type="hidden" name="revTimes" id="form-revTimes" value="">
+                        <input type="hidden" name="themeTimeNum" id="form-themeTimeNum" value="">
+
+                        <button type="button" class="submit-btn" id="submitBtn" onclick="submitForm()" disabled>직링
+                            연결하기</button>
+                    </form>
+                    <div class="status-text" id="statusText">테마와 시간을 선택해주세요.</div>
+                </div>
+            </div> <!-- .main-content -->
+
+            <div class="side-content">
+                <div class="ranking-container" id="rankingBox" style="display: none;">
+                    <h3>전체 테마 순위 TOP 🔥 <span class="update-status" id="rankingUpdateStatus">업데이트 중...</span></h3>
+                    <table class="ranking-table">
+                        <thead>
+                            <tr>
+                                <th width="15%">순위</th>
+                                <th width="30%">지점</th>
+                                <th width="40%">테마명</th>
+                                <th width="15%" style="text-align: right;">평점</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rankingTableBody">
+                            <!-- 자바스크립트로 랭킹 정보가 채워집니다 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- .side-content -->
+        </div> <!-- .layout-wrapper -->
     </div>
 
     <script>
