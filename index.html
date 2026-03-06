@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +9,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
+
     <style>
         /* Enhanced 리퀴드 글라스 (Glassmorphism) UI 스타일 */
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.05); /* 더 투명하게 */
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            /* 더 투명하게 */
             --glass-border: rgba(255, 255, 255, 0.1);
             --glass-highlight: rgba(255, 255, 255, 0.2);
             --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
@@ -44,11 +46,19 @@
             overflow-x: hidden;
             position: relative;
         }
-        
+
         @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         /* 배경 장식 원형 요소 */
@@ -60,7 +70,7 @@
             opacity: 0.6;
             animation: float 10s infinite ease-in-out;
         }
-        
+
         .circle-1 {
             width: 300px;
             height: 300px;
@@ -69,7 +79,7 @@
             left: -50px;
             animation-delay: 0s;
         }
-        
+
         .circle-2 {
             width: 400px;
             height: 400px;
@@ -80,9 +90,17 @@
         }
 
         @keyframes float {
-            0% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-30px) scale(1.05); }
-            100% { transform: translateY(0) scale(1); }
+            0% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-30px) scale(1.05);
+            }
+
+            100% {
+                transform: translateY(0) scale(1);
+            }
         }
 
         .container {
@@ -96,8 +114,8 @@
             padding: 50px 40px;
             width: 90%;
             max-width: 650px;
-            box-shadow: var(--glass-shadow), 
-                        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            box-shadow: var(--glass-shadow),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.05);
             text-align: center;
             position: relative;
             z-index: 10;
@@ -111,15 +129,37 @@
             background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         h2 {
             font-size: 16px;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
             font-weight: 400;
             color: var(--text-muted);
             letter-spacing: 0.5px;
+        }
+
+        .guide-box {
+            background: rgba(0, 198, 255, 0.05);
+            border: 1px solid rgba(0, 198, 255, 0.2);
+            border-radius: 16px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .guide-box strong {
+            color: #fff;
+            font-weight: 600;
+            background: linear-gradient(90deg, var(--accent-start), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .theme-buttons {
@@ -148,9 +188,9 @@
         button:hover {
             background: var(--btn-hover);
             transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2),
-                        inset 0 1px 1px rgba(255,255,255,0.2);
-            border-color: rgba(255,255,255,0.3);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .theme-buttons button.active {
@@ -158,8 +198,8 @@
             color: #fff;
             font-weight: 700;
             border-color: transparent;
-            box-shadow: 0 0 20px var(--accent-glow), 
-                        inset 0 2px 2px rgba(255,255,255,0.3);
+            box-shadow: 0 0 20px var(--accent-glow),
+                inset 0 2px 2px rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
         }
 
@@ -204,11 +244,11 @@
         }
 
         .time-btn.selected {
-            background: rgba(255,255,255,0.2);
-            border-color: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
             color: #fff;
-            box-shadow: 0 0 15px rgba(255,255,255,0.1),
-                        inset 0 0 0 1px rgba(255,255,255,0.3);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.3);
             transform: scale(1.03);
             position: relative;
         }
@@ -224,15 +264,22 @@
         }
 
         @keyframes slideUpFade {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .submit-section {
             padding-top: 35px;
             position: relative;
         }
-        
+
         .submit-section::before {
             content: '';
             position: absolute;
@@ -240,7 +287,7 @@
             left: 10%;
             right: 10%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
         }
 
         .submit-btn {
@@ -254,7 +301,7 @@
             letter-spacing: 1.5px;
             text-transform: uppercase;
             box-shadow: 0 10px 25px rgba(0, 114, 255, 0.4),
-                        inset 0 2px 2px rgba(255,255,255,0.3);
+                inset 0 2px 2px rgba(255, 255, 255, 0.3);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             width: 100%;
             max-width: 320px;
@@ -269,7 +316,7 @@
             left: -100%;
             width: 50%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             transform: skewX(-20deg);
             transition: 0.5s;
         }
@@ -277,17 +324,25 @@
         .submit-btn:hover:not(:disabled) {
             transform: translateY(-5px) scale(1.02);
             box-shadow: 0 15px 35px rgba(0, 114, 255, 0.6),
-                        inset 0 2px 2px rgba(255,255,255,0.3);
+                inset 0 2px 2px rgba(255, 255, 255, 0.3);
         }
 
         .submit-btn:hover:not(:disabled)::before {
             left: 150%;
         }
-        
+
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(0, 198, 255, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(0, 198, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 198, 255, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 198, 255, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(0, 198, 255, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 198, 255, 0);
+            }
         }
 
         .submit-btn:not(:disabled) {
@@ -295,12 +350,12 @@
         }
 
         .submit-btn:disabled {
-            background: rgba(255,255,255,0.05);
-            color: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.3);
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             animation: none;
         }
 
@@ -319,6 +374,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Background Decorators -->
     <div class="bg-circle circle-1"></div>
@@ -326,8 +382,15 @@
 
     <div class="container">
         <h1>키이스케이프 예약 직링 매크로</h1>
-        
+
         <h2>테마를 선택하세요</h2>
+
+        <div class="guide-box">
+            💡 <strong>추천 체험 순서:</strong> FILM BY EDDY ➔ FILM BY STEVE ➔ FILM BY BOB<br>
+            <span style="font-size: 13px; color: var(--text-muted); display: block; margin-top: 6px;">순서와 무관하게 즐기실 수
+                있지만, 권장 순서대로 체험하시면 숨겨진 디테일을 더욱 잘 발견하실 수 있습니다.</span>
+        </div>
+
         <div class="theme-buttons">
             <button onclick="selectTheme('EDDY', this)">FILM BY EDDY</button>
             <button onclick="selectTheme('STEVE', this)">FILM BY STEVE</button>
@@ -345,7 +408,7 @@
                 <input type="hidden" name="themeNum" id="form-themeNum" value="">
                 <input type="hidden" name="themeInfoNum" id="form-themeInfoNum" value="">
                 <input type="hidden" name="revDays" id="form-revDays" value="">
-                
+
                 <!-- 자바스크립트로 변경될 동적 데이터 -->
                 <input type="hidden" name="themeName" id="form-themeName" value="">
                 <input type="hidden" name="revTimes" id="form-revTimes" value="">
@@ -405,7 +468,7 @@
             currentTheme = themesData[themeKey];
             currentTime = null;
             currentNum = null;
-            
+
             // 모든 테마 버튼 비활성화 후 클릭된 버튼 활성화
             document.querySelectorAll('.theme-buttons button').forEach(btn => btn.classList.remove('active'));
             btnElement.classList.add('active');
@@ -426,15 +489,15 @@
         function renderTimeGrid(themeKey) {
             const wrapper = document.getElementById('timeWrapper');
             const data = themesData[themeKey];
-            
+
             let html = `<div class="time-container active" id="times-${themeKey}">
                             <h3><span class="highlight-text">${data.name}</span> 시간 선택</h3>
                             <div class="time-grid">`;
-            
-            for(let i=0; i<data.times.length; i++) {
+
+            for (let i = 0; i < data.times.length; i++) {
                 html += `<button class="time-btn" onclick="selectTime('${data.times[i]}', '${data.nums[i]}', this)">${data.times[i]}</button>`;
             }
-            
+
             html += `</div></div>`;
             wrapper.innerHTML = html;
         }
@@ -481,4 +544,5 @@
         }
     </script>
 </body>
+
 </html>
