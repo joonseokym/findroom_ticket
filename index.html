@@ -38,9 +38,9 @@
         html,
         body {
             max-width: 100%;
+            height: 100%;
             overflow-x: hidden;
             background-color: var(--bg-color-1);
-            /* Fix overscroll white color */
         }
 
         body {
@@ -50,11 +50,10 @@
             font-family: 'Outfit', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: linear-gradient(135deg, var(--bg-color-1) 0%, var(--bg-color-2) 50%, var(--bg-color-3) 100%);
             background-size: 200% 200%;
+            background-attachment: fixed;
             animation: gradientBG 15s ease infinite;
             color: var(--text-color);
             position: relative;
-            /* Flex layout on body is prone to vertical clipping on mobile. 
-               app-wrapper uses margin: 0 auto; instead. */
         }
 
         @keyframes gradientBG {
@@ -73,7 +72,7 @@
 
         /* 배경 장식 원형 요소 */
         .bg-circle {
-            position: absolute;
+            position: fixed;
             border-radius: 50%;
             filter: blur(80px);
             z-index: -1;
