@@ -317,6 +317,15 @@
             border-bottom: none;
         }
 
+        .ranking-table tbody tr {
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .ranking-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
         .rank-medal {
             width: 18px;
             height: 18px;
@@ -693,8 +702,24 @@
                     jsonList.forEach(item => {
                         if (macroThemes.has(item.theme)) {
                             count++;
+
+                            // Find the corresponding branchKey and themeKey to trigger selection logic
+                            let foundBranchKey = null;
+                            let foundThemeKey = null;
+
+                            for (const bKey in branchesData) {
+                                for (const tKey in branchesData[bKey].themes) {
+                                    if (branchesData[bKey].themes[tKey].name === item.theme) {
+                                        foundBranchKey = bKey;
+                                        foundThemeKey = tKey;
+                                        break;
+                                    }
+                                }
+                                if (foundBranchKey) break;
+                            }
+
                             renderHtml += `
-                                <tr>
+                                <tr onclick="selectRankingTheme('${foundBranchKey}', '${foundThemeKey}')">
                                     <td>${item.rankHtml}</td>
                                     <td>${item.branch}</td>
                                     <td class="rank-theme">${item.theme}</td>
@@ -721,6 +746,42 @@
             }
         }
 
+        function selectRankingTheme(branchKey, themeKey) {
+            if (!branchKey || !themeKey) return;
+
+            // 1. Select the branch (auto scroll to theme buttons handled internally)
+            const branchBtns = document.querySelectorAll('#branchWrapper button');
+            let targetBranchBtn = null;
+            for (let i = 0; i < branchBtns.length; i++) {
+                if (branchBtns[i].textContent === branchesData[branchKey].name) {
+                    targetBranchBtn = branchBtns[i];
+                    break;
+                }
+            }
+            selectBranch(branchKey, targetBranchBtn);
+
+            // 2. Select the theme (Time rendering logic)
+            // Need slight delay to let the DOM render the themes properly before trying to select one
+            setTimeout(() => {
+                const themeBtns = document.querySelectorAll('#themeWrapper button');
+                let targetThemeBtn = null;
+                for (let i = 0; i < themeBtns.length; i++) {
+                    if (themeBtns[i].textContent === branchesData[branchKey].themes[themeKey].name) {
+                        targetThemeBtn = themeBtns[i];
+                        break;
+                    }
+                }
+
+                // Select the theme, which triggers the time grid render
+                selectTheme(themeKey, targetThemeBtn);
+
+                // Scroll specifically to the time wrapper
+                setTimeout(() => {
+                    document.getElementById('timeWrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }, 10);
+        }
+
         function renderBranches() {
             const wrapper = document.getElementById('branchWrapper');
             let html = '';
@@ -737,7 +798,7 @@
             currentNum = null;
 
             document.querySelectorAll('#branchWrapper button').forEach(btn => btn.classList.remove('active'));
-            btnElement.classList.add('active');
+            if (btnElement) btnElement.classList.add('active');
 
             // Reset form
             document.getElementById('form-zizumNum').value = currentBranch.zizumNum;
@@ -758,6 +819,10 @@
             renderThemes(branchKey);
             startCountdown(currentBranch.openTime);
             updateStatus();
+
+            setTimeout(() => {
+                document.getElementById('themeListWrapper').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
         }
 
         function renderThemes(branchKey) {
@@ -781,7 +846,7 @@
             currentNum = null;
 
             document.querySelectorAll('#themeWrapper button').forEach(btn => btn.classList.remove('active'));
-            btnElement.classList.add('active');
+            if (btnElement) btnElement.classList.add('active');
 
             document.getElementById('form-themeName').value = currentTheme.name;
             document.getElementById('form-themeNum').value = currentTheme.themeNum;
@@ -789,8 +854,22 @@
             document.getElementById('form-revTimes').value = "";
             document.getElementById('form-themeTimeNum').value = "";
 
+            // 메모리컴퍼니 지점일 때만 안내 문구 표시
+            const memoryGuide = document.getElementById('memoryGuide');
+            const branchKey = Object.keys(branchesData).find(key => branchesData[key] === currentBranch);
+
+            if (branchKey === 'MEMORY') {
+                memoryGuide.style.display = 'block';
+            } else {
+                memoryGuide.style.display = 'none';
+            }
+
             renderTimeGrid();
             updateStatus();
+
+            setTimeout(() => {
+                document.getElementById('timeWrapper').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
         }
 
         function renderTimeGrid() {
@@ -819,6 +898,10 @@
             document.getElementById('form-themeTimeNum').value = num;
 
             updateStatus();
+
+            setTimeout(() => {
+                document.getElementById('submitBtn').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
         }
 
         function updateStatus() {
