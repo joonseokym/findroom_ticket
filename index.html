@@ -31,6 +31,16 @@
             --bg-color-3: #2c5364;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -306,16 +316,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-sizing: border-box;
         }
 
         .side-content {
             flex: 1;
             min-width: 250px;
-            max-width: 350px;
+            max-width: 400px;
             position: sticky;
             top: 30px;
-            box-sizing: border-box;
         }
 
         @media (max-width: 1150px) {
@@ -359,7 +367,10 @@
         .ranking-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
+            font-size: 14px;
+            table-layout: fixed;
+            word-break: keep-all;
+            overflow-wrap: anywhere;
             text-align: left;
         }
 
