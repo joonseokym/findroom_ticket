@@ -39,6 +39,8 @@
         body {
             max-width: 100%;
             overflow-x: hidden;
+            background-color: var(--bg-color-1);
+            /* Fix overscroll white color */
         }
 
         body {
@@ -302,13 +304,6 @@
             width: 100%;
         }
 
-        /* 완벽한 중앙 정렬을 위한 투명 스페이서 */
-        .layout-spacer {
-            flex: 1;
-            min-width: 250px;
-            max-width: 350px;
-        }
-
         .main-content {
             flex: 0 0 100%;
             max-width: 650px;
@@ -327,10 +322,6 @@
         }
 
         @media (max-width: 1150px) {
-            .layout-spacer {
-                display: none;
-            }
-
             .layout-wrapper {
                 flex-direction: column;
                 align-items: center;
@@ -581,7 +572,6 @@
         <h1 class="main-title">키이스케이프 예약 직링 매크로</h1>
 
         <div class="layout-wrapper">
-            <div class="layout-spacer"></div>
 
             <div class="main-content glass-panel">
                 <h2>지점을 선택하세요</h2>
