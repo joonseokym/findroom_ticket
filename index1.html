@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>키이스케이프 예약 직링 매크로</title>
+    <!-- Google Fonts Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Enhanced 리퀴드 글라스 (Glassmorphism) UI 스타일 */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            /* 더 투명하게 */
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-highlight: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --btn-bg: rgba(255, 255, 255, 0.08);
+            --btn-hover: rgba(255, 255, 255, 0.15);
+            --btn-active: rgba(255, 255, 255, 0.25);
+            --text-color: #f8f9fa;
+            --text-muted: #adb5bd;
+            --accent-start: #00c6ff;
+            --accent-end: #0072ff;
+            --accent-glow: rgba(0, 198, 255, 0.5);
+            --bg-color-1: #0f2027;
+            --bg-color-2: #203a43;
+            --bg-color-3: #2c5364;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+            background-color: var(--bg-color-1);
+            /* Fix overscroll white color */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Outfit', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-color-1) 0%, var(--bg-color-2) 50%, var(--bg-color-3) 100%);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-color);
+            position: relative;
+            /* Flex layout on body is prone to vertical clipping on mobile. 
+               app-wrapper uses margin: 0 auto; instead. */
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* 배경 장식 원형 요소 */
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            background: #00c6ff;
+            top: -50px;
+            left: -50px;
+            animation-delay: 0s;
+        }
+
+        .circle-2 {
+            width: 400px;
+            height: 400px;
+            background: #9d50bb;
+            bottom: -100px;
+            right: -100px;
+            animation-duration: 15s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-30px) scale(1.05);
+            }
+
+            100% {
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .app-wrapper {
+            width: 95%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 50px 0;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-highlight);
+            border-left: 1px solid var(--glass-highlight);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: var(--glass-shadow),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            text-align: center;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        h1.main-title {
+            font-size: 38px;
+            margin-bottom: 35px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 100%;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin-bottom: 25px;
+            font-weight: 400;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .guide-box {
+            background: rgba(0, 198, 255, 0.05);
+            border: 1px solid rgba(0, 198, 255, 0.2);
+            border-radius: 16px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .guide-box strong {
+            color: #fff;
+            font-weight: 600;
+            background: linear-gradient(90deg, var(--accent-start), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .theme-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: var(--btn-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-color);
+            padding: 14px 28px;
+            font-size: 15px;
+            font-family: inherit;
+            font-weight: 500;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(10px);
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            background: var(--btn-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .theme-buttons button.active {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            color: #fff;
+            font-weight: 700;
+            border-color: transparent;
+            box-shadow: 0 0 20px var(--accent-glow),
+                inset 0 2px 2px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .time-container {
+            display: none;
+            margin-bottom: 40px;
+            animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .time-container.active {
+            display: block;
+        }
+
+        .time-container h3 {
+            font-size: 15px;
+            margin-bottom: 20px;
+            font-weight: 300;
+            color: var(--text-muted);
+        }
+
+        .time-container h3 .highlight-text {
+            color: #fff;
+            font-weight: 600;
+            background: linear-gradient(90deg, var(--accent-start), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Server Time Sync Indicator */
+        .server-time-status {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 5px;
+            margin-bottom: -5px;
+        }
+
+        /* Countdown Style */
+        .countdown-box {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin: 20px auto 30px;
+            max-width: 350px;
+            font-size: 16px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .countdown-box.active {
+            display: flex;
+        }
+
+        .countdown-time {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffde59;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 222, 89, 0.4);
+        }
+
+        /* Ranking Board Style */
+        .ranking-container {
+            padding: 30px 20px;
+            width: 100%;
+        }
+
+        .layout-wrapper {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .main-content {
+            flex: 0 0 100%;
+            max-width: 650px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .side-content {
+            flex: 1;
+            min-width: 250px;
+            max-width: 400px;
+            position: sticky;
+            top: 30px;
+        }
+
+        @media (max-width: 1150px) {
+            .layout-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .side-content {
+                flex: none;
+                width: 100%;
+                max-width: 650px;
+                position: static;
+                order: 2;
+                margin-top: 10px;
+            }
+        }
+
+        .ranking-container h3 {
+            margin-top: 5px;
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ranking-container h3 .update-status {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            table-layout: fixed;
+            word-break: keep-all;
+            overflow-wrap: anywhere;
+            text-align: left;
+        }
+
+        .ranking-table th {
+            color: var(--text-muted);
+            font-weight: 500;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ranking-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .ranking-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .ranking-table tbody tr {
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .ranking-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .rank-medal {
+            width: 18px;
+            height: 18px;
+            vertical-align: middle;
+        }
+
+        .rank-num {
+            font-weight: bold;
+            color: #ccc;
+        }
+
+        .rank-theme {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .rank-rating {
+            color: #ffde59;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .countdown-box.active {
+            display: flex;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .time-btn {
+            padding: 14px 10px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 14px;
+            letter-spacing: 1px;
+        }
+
+        .time-btn.selected {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+            transform: scale(1.03);
+            position: relative;
+        }
+
+        .time-btn.selected::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 16px;
+            background: linear-gradient(45deg, var(--accent-start), transparent);
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .submit-section {
+            padding-top: 35px;
+            position: relative;
+        }
+
+        .submit-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            color: #fff;
+            font-weight: 700;
+            font-size: 20px;
+            padding: 18px 50px;
+            border: none;
+            border-radius: 50px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            box-shadow: 0 10px 25px rgba(0, 114, 255, 0.4),
+                inset 0 2px 2px rgba(255, 255, 255, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+            max-width: 320px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 114, 255, 0.6),
+                inset 0 2px 2px rgba(255, 255, 255, 0.3);
+        }
+
+        .submit-btn:hover:not(:disabled)::before {
+            left: 150%;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 198, 255, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(0, 198, 255, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 198, 255, 0);
+            }
+        }
+
+        .submit-btn:not(:disabled) {
+            animation: pulse 2s infinite;
+        }
+
+        .submit-btn:disabled {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.3);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: none;
+        }
+
+        .status-text {
+            margin-top: 25px;
+            font-size: 14px;
+            color: var(--text-muted);
+            min-height: 20px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .highlight-text {
+            color: #fff;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Decorators -->
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+
+    <div class="app-wrapper">
+        <h1 class="main-title">키이스케이프 예약 직링 매크로</h1>
+
+        <div class="layout-wrapper">
+
+            <div class="main-content glass-panel">
+                <h2>지점을 선택하세요</h2>
+
+                <div class="theme-buttons" id="branchWrapper">
+                    <!-- 지점 버튼들이 여기에 나타납니다 -->
+                </div>
+
+                <div class="countdown-box" id="countdownBox">
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span id="countdownLabel">예약 오픈까지</span>
+                            <span class="countdown-time" id="countdownTimer">00:00:00</span>
+                        </div>
+                        <div class="server-time-status" id="serverTimeStatus">서버 시간 동기화 중...</div>
+                    </div>
+                </div>
+
+                <div id="themeListWrapper" style="display: none; width: 100%;">
+                    <h2 style="margin-top: -10px;">테마를 선택하세요</h2>
+
+                    <div class="guide-box" id="memoryGuide" style="display: none;">
+                        💡 <strong>추천 체험 순서:</strong> FILM BY EDDY ➔ FILM BY STEVE ➔ FILM BY BOB<br>
+                        <span style="font-size: 13px; color: var(--text-muted); display: block; margin-top: 6px;">
+                            순서와 무관하게 즐기실 수 있지만, 권장 순서대로 체험하시면 숨겨진 디테일을 더욱 잘 발견하실 수 있습니다.
+                        </span>
+                    </div>
+
+                    <div class="theme-buttons" id="themeWrapper">
+                        <!-- 선택한 지점의 테마 버튼들이 여기에 나타납니다 -->
+                    </div>
+                </div>
+
+                <div id="timeWrapper" style="width: 100%;">
+                    <!-- 선택한 테마의 시간 버튼들이 여기에 나타납니다 -->
+                </div>
+
+                <div class="submit-section" style="width: 100%;">
+                    <form id="reservationForm" action="https://keyescape.com/reservation2.php" method="POST"
+                        target="_blank">
+                        <!-- 기존 폼 데이터 보존 (지점 정보 등) -->
+                        <input type="hidden" name="zizumNum" id="form-zizumNum" value="">
+                        <input type="hidden" name="themeNum" id="form-themeNum" value="">
+                        <input type="hidden" name="themeInfoNum" id="form-themeInfoNum" value="">
+                        <input type="hidden" name="revDays" id="form-revDays" value="">
+
+                        <!-- 자바스크립트로 변경될 동적 데이터 -->
+                        <input type="hidden" name="themeName" id="form-themeName" value="">
+                        <input type="hidden" name="revTimes" id="form-revTimes" value="">
+                        <input type="hidden" name="themeTimeNum" id="form-themeTimeNum" value="">
+
+                        <button type="button" class="submit-btn" id="submitBtn" onclick="submitForm()" disabled>직링
+                            연결하기</button>
+                    </form>
+                    <div class="status-text" id="statusText">테마와 시간을 선택해주세요.</div>
+                </div>
+            </div> <!-- .main-content -->
+
+            <div class="side-content">
+                <div class="ranking-container glass-panel" id="rankingBox" style="display: none;">
+                    <h3>전체 테마 순위 TOP 🔥 <span class="update-status" id="rankingUpdateStatus">업데이트 중...</span></h3>
+                    <table class="ranking-table">
+                        <thead>
+                            <tr>
+                                <th width="15%">순위</th>
+                                <th width="30%">지점</th>
+                                <th width="40%">테마명</th>
+                                <th width="15%" style="text-align: right;">평점</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rankingTableBody">
+                            <!-- 자바스크립트로 랭킹 정보가 채워집니다 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- .side-content -->
+        </div> <!-- .layout-wrapper -->
+    </div>
+
+    <script>
+        // 데이터 구조 정의
+        const branchesData = {
+            'MEMORY': {
+                name: '메모리컴퍼니', zizumNum: '18', openTime: '10:30',
+                themes: {
+                    'EDDY': { name: 'FILM BY EDDY', themeNum: '57', themeInfoNum: '34', times: ['09:15', '10:45', '12:15', '13:45', '15:20', '16:50', '18:20', '19:50', '21:25'], nums: ['2107', '1810', '1811', '1812', '1813', '1814', '1815', '1816', '1817'] },
+                    'STEVE': { name: 'FILM BY STEVE', themeNum: '58', themeInfoNum: '35', times: ['09:40', '10:40', '11:40', '12:40', '13:40', '14:40', '15:40', '16:40', '17:40', '18:40', '19:40', '20:40', '21:40'], nums: ['2303', '1828', '1829', '1830', '1831', '1832', '1833', '1834', '1835', '1836', '1837', '2036', '1838'] },
+                    'BOB': { name: 'FILM BY BOB', themeNum: '59', themeInfoNum: '36', times: ['09:10', '10:35', '12:00', '13:25', '14:50', '16:20', '17:45', '19:15', '20:40', '22:05'], nums: ['1983', '1984', '2815', '1985', '2037', '1986', '1987', '2038', '2039', '2040'] }
+                }
+            },
+            'WHOSTHERE': {
+                name: '후즈데어', zizumNum: '23', openTime: '11:00',
+                themes: {
+                    'AYAKO': { name: 'AYAKO', themeNum: '71', themeInfoNum: '63', times: ['09:55', '10:50', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '20:55', '21:50'], nums: ['2495', '2496', '2497', '2498', '2499', '2500', '2501', '2502', '2503', '2504', '2505', '2506', '2507', '2508'] },
+                    'TUTU': { name: '투투 어드벤쳐', themeNum: '69', themeInfoNum: '60', times: ['09:45', '10:40', '11:35', '12:30', '13:25', '14:20', '15:15', '16:10', '17:05', '18:00', '18:55', '19:50', '20:45', '21:40'], nums: ['2816', '2817', '2818', '2819', '2820', '2821', '2822', '2823', '2824', '2825', '2826', '2827', '2828', '2829'] },
+                    'GOEROK': { name: '괴록', themeNum: '70', themeInfoNum: '61', times: ['10:20', '11:50', '12:35', '13:20', '14:50', '16:20', '17:50', '18:35', '19:20', '20:50'], nums: ['2934', '2936', '3131', '2937', '2939', '2940', '2942', '3132', '2945', '2946'] }
+                }
+            },
+            'GANGNAM_ST': {
+                name: '강남스테이션', zizumNum: '22', openTime: '11:30',
+                themes: {
+                    'MONEY_ESTATE': { name: '머니머니부동산', themeNum: '65', themeInfoNum: '43', times: ['09:50', '10:50', '11:50', '12:50', '13:50', '14:50', '15:50', '16:50', '17:50', '18:50', '19:50', '20:50', '21:50'], nums: ['2176', '2282', '2178', '2180', '2283', '2184', '2187', '2284', '2191', '2194', '2285', '2202', '2286'] },
+                    'MY_ROOM': { name: '내 방', themeNum: '66', themeInfoNum: '44', times: ['09:45', '10:30', '11:20', '12:05', '12:50', '13:40', '14:25', '15:10', '16:00', '16:45', '17:30', '18:20', '19:05', '19:50', '20:40', '21:25', '22:10'], nums: ['2374', '2307', '2375', '2308', '2376', '2377', '2309', '2310', '2378', '2379', '2311', '2380', '2312', '2381', '2313', '2382', '2314'] },
+                    'NOSTALGIA': { name: 'NOSTALGIA VISTA', themeNum: '67', themeInfoNum: '45', times: ['10:00', '10:55', '11:45', '12:35', '13:25', '14:15', '15:05', '15:55', '16:55', '17:45', '18:35', '19:25', '20:15', '21:05', '21:55'], nums: ['2418', '2419', '2420', '2421', '2422', '2423', '2424', '2425', '2426', '2427', '2428', '2429', '2430', '2431', '2432'] }
+                }
+            },
+            'LOGIN_1': {
+                name: 'LOG_IN 1', zizumNum: '19', openTime: '10:00',
+                themes: {
+                    'MONEY_PKG': { name: '머니머니패키지', themeNum: '60', themeInfoNum: '38', times: ['09:20', '10:40', '12:00', '13:20', '14:40', '16:00', '17:20', '18:40', '20:00', '21:20', '22:40'], nums: ['1872', '1873', '1874', '1875', '1876', '1877', '1878', '1879', '1880', '1881', '1982'] },
+                    'FOR_FREE': { name: 'FOR FREE', themeNum: '63', themeInfoNum: '41', times: ['09:30', '10:50', '12:10', '13:30', '14:50', '16:10', '17:30', '18:50', '20:10', '21:30', '22:45'], nums: ['2057', '2058', '2059', '2060', '2061', '2062', '2063', '2064', '2065', '2066', '2067'] }
+                }
+            },
+            'LOGIN_2': {
+                name: 'LOG_IN 2', zizumNum: '20', openTime: '10:00',
+                themes: {
+                    'GENTLE_MON': { name: 'A GENTLE MONDAY', themeNum: '64', themeInfoNum: '42', times: ['09:50', '11:20', '12:50', '14:20', '15:50', '17:20', '18:50', '20:20', '21:50'], nums: ['2117', '2118', '2119', '2120', '2121', '2123', '2124', '2125', '2126'] },
+                    'BACKTO': { name: 'BACK TO THE SCENE+', themeNum: '61', themeInfoNum: '40', times: ['10:10', '11:05', '12:00', '12:55', '13:50', '14:45', '15:40', '16:35', '17:30', '18:25', '19:20', '20:15', '21:10', '22:05'], nums: ['1912', '1913', '1914', '1915', '1916', '1917', '1918', '1919', '1920', '1921', '1922', '1923', '1924', '1925'] }
+                }
+            },
+            'WOOJU': {
+                name: '우주라이크', zizumNum: '16', openTime: '10:00',
+                themes: {
+                    'WANNA': { name: 'WANNA GO HOME', themeNum: '56', themeInfoNum: '33', times: ['10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00', '20:30', '22:00'], nums: ['1760', '1733', '1777', '1734', '1735', '1778', '1736', '1737', '1779'] },
+                    'US': { name: 'US', themeNum: '55', themeInfoNum: '31', times: ['09:55', '11:15', '12:35', '13:55', '15:15', '16:35', '17:55', '19:15', '20:35', '21:55'], nums: ['1671', '1672', '1673', '1674', '1675', '1676', '1678', '1679', '1680', '1681'] }
+                }
+            },
+            'GANGNAM_OREUM': {
+                name: '강남 더오름', zizumNum: '14', openTime: '10:00',
+                themes: {
+                    'ANGELIO': { name: '엔제리오', themeNum: '51', themeInfoNum: '27', times: ['09:50', '11:20', '12:50', '14:20', '15:50', '17:20', '18:50', '20:20', '21:50'], nums: ['1514', '1515', '1516', '1517', '1518', '1519', '1520', '1521', '1522'] },
+                    'NED': { name: '네드', themeNum: '48', themeInfoNum: '26', times: ['10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00', '20:30', '22:00'], nums: ['1470', '1471', '1472', '1473', '1474', '1475', '1782', '1476', '1477'] }
+                }
+            }
+        };
+
+        let currentBranch = null;
+        let currentTheme = null;
+        let currentTime = null;
+        let currentNum = null;
+        let countdownInterval = null;
+        let serverTimeOffset = 0; // Local_Time + ServerTimeOffset = Server_Time 
+
+        // 오늘 + 6일 날짜 계산 및 설정 (YYYY-MM-DD 포맷)
+        const targetDate = new Date();
+        targetDate.setDate(targetDate.getDate() + 6);
+        const year = targetDate.getFullYear();
+        const month = String(targetDate.getMonth() + 1).padStart(2, '0');
+        const day = String(targetDate.getDate()).padStart(2, '0');
+        const targetDateStr = `${year}-${month}-${day}`;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('form-revDays').value = targetDateStr;
+            renderBranches();
+            syncServerTime();
+            loadRankings();
+        });
+
+        async function syncServerTime() {
+            try {
+                // Fetch header from GitHub API to get accurate world time (CORS friendly)
+                const response = await fetch('https://api.github.com/', { method: 'HEAD' });
+                const serverDateStr = response.headers.get('date');
+
+                if (serverDateStr) {
+                    const serverTime = new Date(serverDateStr).getTime();
+                    const localTime = new Date().getTime();
+                    serverTimeOffset = serverTime - localTime;
+
+                    document.getElementById('serverTimeStatus').innerHTML = `✅ 정확한 표준 시간과 동기화됨`;
+                } else {
+                    document.getElementById('serverTimeStatus').innerHTML = `⚠️ 서버 시간 동기화 실패 (로컬 시간 적용)`;
+                }
+            } catch (error) {
+                console.error("Server time sync failed", error);
+                document.getElementById('serverTimeStatus').innerHTML = `⚠️ 서버 시간 동기화 실패 (로컬 시간 적용)`;
+            }
+        }
+
+        async function loadRankings() {
+            const rankingBox = document.getElementById('rankingBox');
+            const tbody = document.getElementById('rankingTableBody');
+            const status = document.getElementById('rankingUpdateStatus');
+
+            // 우리 매크로에 있는 테마명 리스트 평탄화
+            const macroThemes = new Set();
+            for (const branch in branchesData) {
+                for (const t in branchesData[branch].themes) {
+                    macroThemes.add(branchesData[branch].themes[t].name);
+                }
+            }
+
+            try {
+                // Fetch the JSON generated by our GitHub Actions backend
+                const response = await fetch('./data/ranking.json?enc=' + new Date().getTime());
+                if (response.ok) {
+                    const jsonList = await response.json();
+                    let renderHtml = '';
+                    let count = 0;
+
+                    jsonList.forEach(item => {
+                        if (macroThemes.has(item.theme)) {
+                            count++;
+
+                            // Find the corresponding branchKey and themeKey to trigger selection logic
+                            let foundBranchKey = null;
+                            let foundThemeKey = null;
+
+                            for (const bKey in branchesData) {
+                                for (const tKey in branchesData[bKey].themes) {
+                                    if (branchesData[bKey].themes[tKey].name === item.theme) {
+                                        foundBranchKey = bKey;
+                                        foundThemeKey = tKey;
+                                        break;
+                                    }
+                                }
+                                if (foundBranchKey) break;
+                            }
+
+                            renderHtml += `
+                                <tr onclick="selectRankingTheme('${foundBranchKey}', '${foundThemeKey}')">
+                                    <td>${item.rankHtml}</td>
+                                    <td>${item.branch}</td>
+                                    <td class="rank-theme">${item.theme}</td>
+                                    <td class="rank-rating">${item.rating}</td>
+                                </tr>
+                            `;
+                        }
+                    });
+
+                    if (count > 0) {
+                        tbody.innerHTML = renderHtml;
+                        const d = new Date();
+                        status.innerText = `${d.getMonth() + 1}/${d.getDate()} 기준`;
+                        rankingBox.style.display = 'block';
+                    } else {
+                        rankingBox.style.display = 'none';
+                    }
+                } else {
+                    rankingBox.style.display = 'none';
+                }
+            } catch (err) {
+                console.error("Ranking fetch failed", err);
+                rankingBox.style.display = 'none';
+            }
+        }
+
+        function selectRankingTheme(branchKey, themeKey) {
+            if (!branchKey || !themeKey) return;
+
+            // 1. Select the branch (auto scroll to theme buttons handled internally)
+            const branchBtns = document.querySelectorAll('#branchWrapper button');
+            let targetBranchBtn = null;
+            for (let i = 0; i < branchBtns.length; i++) {
+                if (branchBtns[i].textContent === branchesData[branchKey].name) {
+                    targetBranchBtn = branchBtns[i];
+                    break;
+                }
+            }
+            selectBranch(branchKey, targetBranchBtn);
+
+            // 2. Select the theme (Time rendering logic)
+            // Need slight delay to let the DOM render the themes properly before trying to select one
+            setTimeout(() => {
+                const themeBtns = document.querySelectorAll('#themeWrapper button');
+                let targetThemeBtn = null;
+                for (let i = 0; i < themeBtns.length; i++) {
+                    if (themeBtns[i].textContent === branchesData[branchKey].themes[themeKey].name) {
+                        targetThemeBtn = themeBtns[i];
+                        break;
+                    }
+                }
+
+                // Select the theme, which triggers the time grid render
+                selectTheme(themeKey, targetThemeBtn);
+
+                // Scroll specifically to the time wrapper
+                setTimeout(() => {
+                    document.getElementById('timeWrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }, 10);
+        }
+
+        function renderBranches() {
+            const wrapper = document.getElementById('branchWrapper');
+            let html = '';
+            for (const key in branchesData) {
+                html += `<button onclick="selectBranch('${key}', this)">${branchesData[key].name}</button>`;
+            }
+            wrapper.innerHTML = html;
+        }
+
+        function selectBranch(branchKey, btnElement) {
+            currentBranch = branchesData[branchKey];
+            currentTheme = null;
+            currentTime = null;
+            currentNum = null;
+
+            document.querySelectorAll('#branchWrapper button').forEach(btn => btn.classList.remove('active'));
+            if (btnElement) btnElement.classList.add('active');
+
+            // Reset form
+            document.getElementById('form-zizumNum').value = currentBranch.zizumNum;
+            document.getElementById('form-themeName').value = "";
+            document.getElementById('form-themeNum').value = "";
+            document.getElementById('form-themeInfoNum').value = "";
+            document.getElementById('form-revTimes').value = "";
+            document.getElementById('form-themeTimeNum').value = "";
+
+            // 메모리컴퍼니 지점일 때만 안내 문구 표시
+            const memoryGuide = document.getElementById('memoryGuide');
+            if (branchKey === 'MEMORY') {
+                memoryGuide.style.display = 'block';
+            } else {
+                memoryGuide.style.display = 'none';
+            }
+
+            renderThemes(branchKey);
+            startCountdown(currentBranch.openTime);
+            updateStatus();
+
+            setTimeout(() => {
+                document.getElementById('themeListWrapper').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
+
+        function renderThemes(branchKey) {
+            const wrapper = document.getElementById('themeWrapper');
+            const listWrapper = document.getElementById('themeListWrapper');
+            const timeWrapper = document.getElementById('timeWrapper');
+            const targetThemes = branchesData[branchKey].themes;
+
+            let html = '';
+            for (const key in targetThemes) {
+                html += `<button onclick="selectTheme('${key}', this)">${targetThemes[key].name}</button>`;
+            }
+            wrapper.innerHTML = html;
+            listWrapper.style.display = 'block';
+            timeWrapper.innerHTML = ''; // Hide times when branch changes
+        }
+
+        async function fetchDynamicTimeNums(branchKey, themeKey) {
+            const zizumNum = currentBranch.zizumNum;
+            const themeNum = currentTheme.themeNum;
+            const themeInfoNum = currentTheme.themeInfoNum;
+            
+            // 키이스케이프 실시간 달력 AJAX 요청 URL (JSON 반환)
+            const targetUrl = `https://www.keyescape.com/controller/run_proc.php`;
+            const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(targetUrl);
+
+            try {
+                // 키이스케이프 서버가 요구하는 POST 데이터 형식
+                const formData = new URLSearchParams();
+                formData.append('t', 'get_theme_time');
+                formData.append('date', targetDateStr);
+                formData.append('zizumNum', zizumNum);
+                formData.append('themeNum', themeNum);
+                formData.append('endDay', '0');
+                
+                const response = await fetch(proxyUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData.toString()
+                });
+                
+                const responseText = await response.text();
+                
+                try {
+                    const jsonData = JSON.parse(responseText);
+                    
+                    if (jsonData.status && jsonData.data && jsonData.data.length > 0) {
+                        const newTimes = [];
+                        const newNums = [];
+                        const newDisabled = [];
+                        
+                        jsonData.data.forEach(item => {
+                            const timeStr = item.hh + ':' + item.mm;
+                            newTimes.push(timeStr);
+                            newNums.push(item.num);
+                            newDisabled.push(item.enable !== 'Y');
+                        });
+                        
+                        currentTheme.times = newTimes;
+                        currentTheme.nums = newNums;
+                        currentTheme.disabled = newDisabled;
+                    } else {
+                        console.warn("API 응답에 시간표 데이터가 없습니다. (해당 날짜 오픈 전이거나 매진)");
+                    }
+                } catch (parseErr) {
+                    console.error("JSON 파싱 에러 (웹 방화벽 차단 가능성):", parseErr);
+                }
+            } catch (err) {
+                console.error("실시간 시간 데이터 불러오기 실패:", err);
+            }
+        }
+
+        async function selectTheme(themeKey, btnElement) {
+            currentTheme = currentBranch.themes[themeKey];
+            currentTime = null;
+            currentNum = null;
+
+            document.querySelectorAll('#themeWrapper button').forEach(btn => btn.classList.remove('active'));
+            if (btnElement) btnElement.classList.add('active');
+
+            document.getElementById('form-themeName').value = currentTheme.name;
+            document.getElementById('form-themeNum').value = currentTheme.themeNum;
+            document.getElementById('form-themeInfoNum').value = currentTheme.themeInfoNum;
+            document.getElementById('form-revTimes').value = "";
+            document.getElementById('form-themeTimeNum').value = "";
+
+            // 메모리컴퍼니 지점일 때만 안내 문구 표시
+            const memoryGuide = document.getElementById('memoryGuide');
+            const branchKey = Object.keys(branchesData).find(key => branchesData[key] === currentBranch);
+
+            if (branchKey === 'MEMORY') {
+                memoryGuide.style.display = 'block';
+            } else {
+                memoryGuide.style.display = 'none';
+            }
+
+            const timeWrapper = document.getElementById('timeWrapper');
+            // 로딩 UI 표시
+            timeWrapper.innerHTML = `<div class="time-container active"><h3 style="text-align: center; margin-top: 20px;"><span class="highlight-text">${currentTheme.name}</span> 스케줄 실시간으로 불러오는 중... ⏳</h3></div>`;
+            timeWrapper.style.display = 'block';
+
+            setTimeout(() => {
+                timeWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+
+            // 실시간 스케줄 불러오기
+            await fetchDynamicTimeNums(branchKey, themeKey);
+
+            // 로딩 끝난 뒤 그려주기
+            renderTimeGrid();
+            updateStatus();
+        }
+
+        function renderTimeGrid() {
+            const wrapper = document.getElementById('timeWrapper');
+
+            let html = `<div class="time-container active">
+                            <h3><span class="highlight-text">${currentTheme.name}</span> 시간 선택 (실시간)</h3>
+                            <div class="time-grid">`;
+
+            for (let i = 0; i < currentTheme.times.length; i++) {
+                const isDisabled = currentTheme.disabled && currentTheme.disabled[i];
+                const disabledAttr = isDisabled ? 'disabled style="opacity: 0.4; cursor: not-allowed;"' : '';
+                html += `<button class="time-btn" onclick="selectTime('${currentTheme.times[i]}', '${currentTheme.nums[i]}', this)" ${disabledAttr}>${currentTheme.times[i]}</button>`;
+            }
+
+            html += `</div></div>`;
+            wrapper.innerHTML = html;
+        }
+
+        function selectTime(time, num, btnElement) {
+            currentTime = time;
+            currentNum = num;
+
+            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('selected'));
+            btnElement.classList.add('selected');
+
+            document.getElementById('form-revTimes').value = time;
+            document.getElementById('form-themeTimeNum').value = num;
+
+            updateStatus();
+
+            setTimeout(() => {
+                document.getElementById('submitBtn').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
+
+        function updateStatus() {
+            const statusText = document.getElementById('statusText');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (currentBranch && currentTheme && currentTime) {
+                statusText.innerHTML = `예약일: <span class="highlight-text">${targetDateStr}</span> <br> 구성: <span class="highlight-text">${currentBranch.name}</span> - <span class="highlight-text">${currentTheme.name}</span> - <span class="highlight-text">${currentTime}</span>`;
+                submitBtn.disabled = false;
+            } else if (currentTheme) {
+                statusText.innerText = "예약할 시간을 선택해주세요.";
+                submitBtn.disabled = true;
+            } else if (currentBranch) {
+                statusText.innerText = "테마를 선택해주세요.";
+                submitBtn.disabled = true;
+            } else {
+                statusText.innerText = "지점을 먼저 선택해주세요.";
+                submitBtn.disabled = true;
+            }
+        }
+
+        function submitForm() {
+            if (currentBranch && currentTheme && currentTime) {
+                document.getElementById('reservationForm').submit();
+            }
+        }
+
+        function startCountdown(openTimeString) {
+            const box = document.getElementById('countdownBox');
+            const label = document.getElementById('countdownLabel');
+            const timerEl = document.getElementById('countdownTimer');
+            box.classList.add('active');
+
+            if (countdownInterval) clearInterval(countdownInterval);
+
+            // Parse openTime (e.g. "10:30")
+            const [openHour, openMin] = openTimeString.split(':').map(Number);
+
+            function updateTimer() {
+                // 현재 시간을 동기화된 서버 시간으로 보정
+                const now = new Date(new Date().getTime() + serverTimeOffset);
+
+                // Set target object to today's openTime
+                let target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), openHour, openMin, 0);
+
+                // If currently after that time today, the target becomes tomorrow's openTime
+                if (now.getTime() > target.getTime()) {
+                    target.setDate(target.getDate() + 1);
+                    label.innerText = "(내일) 예약 오픈까지";
+                } else {
+                    label.innerText = "예약 오픈까지";
+                }
+
+                const diffSec = Math.floor((target.getTime() - now.getTime()) / 1000);
+
+                const h = String(Math.floor(diffSec / 3600)).padStart(2, '0');
+                const m = String(Math.floor((diffSec % 3600) / 60)).padStart(2, '0');
+                const s = String(diffSec % 60).padStart(2, '0');
+
+                timerEl.innerText = `${h}:${m}:${s}`;
+
+                if (diffSec <= 0) {
+                    timerEl.innerText = "00:00:00";
+                    // Refresh the timer to flip over to tomorrow
+                    updateTimer();
+                }
+            }
+
+            updateTimer();
+            countdownInterval = setInterval(updateTimer, 1000);
+        }
+    </script>
+</body>
+
+</html>
