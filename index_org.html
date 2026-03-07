@@ -911,65 +911,7 @@
             timeWrapper.innerHTML = ''; // Hide times when branch changes
         }
 
-        async function fetchDynamicTimeNums(branchKey, themeKey) {
-            const zizumNum = currentBranch.zizumNum;
-            const themeNum = currentTheme.themeNum;
-            const themeInfoNum = currentTheme.themeInfoNum;
-            
-            // 키이스케이프 실시간 달력 AJAX 요청 URL (JSON 반환)
-            const targetUrl = `https://www.keyescape.com/controller/run_proc.php`;
-            const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(targetUrl);
-
-            try {
-                // 키이스케이프 서버가 요구하는 POST 데이터 형식
-                const formData = new URLSearchParams();
-                formData.append('t', 'get_theme_time');
-                formData.append('date', targetDateStr);
-                formData.append('zizumNum', zizumNum);
-                formData.append('themeNum', themeNum);
-                formData.append('endDay', '0');
-                
-                const response = await fetch(proxyUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: formData.toString()
-                });
-                
-                const responseText = await response.text();
-                
-                try {
-                    const jsonData = JSON.parse(responseText);
-                    
-                    if (jsonData.status && jsonData.data && jsonData.data.length > 0) {
-                        const newTimes = [];
-                        const newNums = [];
-                        const newDisabled = [];
-                        
-                        jsonData.data.forEach(item => {
-                            const timeStr = item.hh + ':' + item.mm;
-                            newTimes.push(timeStr);
-                            newNums.push(item.num);
-                            newDisabled.push(item.enable !== 'Y');
-                        });
-                        
-                        currentTheme.times = newTimes;
-                        currentTheme.nums = newNums;
-                        currentTheme.disabled = newDisabled;
-                    } else {
-                        console.warn("API 응답에 시간표 데이터가 없습니다. (해당 날짜 오픈 전이거나 매진)");
-                    }
-                } catch (parseErr) {
-                    console.error("JSON 파싱 에러 (웹 방화벽 차단 가능성):", parseErr);
-                }
-            } catch (err) {
-                console.error("실시간 시간 데이터 불러오기 실패:", err);
-            }
-        }
-
-        async function selectTheme(themeKey, btnElement) {
+        function selectTheme(themeKey, btnElement) {
             currentTheme = currentBranch.themes[themeKey];
             currentTime = null;
             currentNum = null;
@@ -993,34 +935,23 @@
                 memoryGuide.style.display = 'none';
             }
 
-            const timeWrapper = document.getElementById('timeWrapper');
-            // 로딩 UI 표시
-            timeWrapper.innerHTML = `<div class="time-container active"><h3 style="text-align: center; margin-top: 20px;"><span class="highlight-text">${currentTheme.name}</span> 스케줄 실시간으로 불러오는 중... ⏳</h3></div>`;
-            timeWrapper.style.display = 'block';
-
-            setTimeout(() => {
-                timeWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 100);
-
-            // 실시간 스케줄 불러오기
-            await fetchDynamicTimeNums(branchKey, themeKey);
-
-            // 로딩 끝난 뒤 그려주기
             renderTimeGrid();
             updateStatus();
+
+            setTimeout(() => {
+                document.getElementById('timeWrapper').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
         }
 
         function renderTimeGrid() {
             const wrapper = document.getElementById('timeWrapper');
 
             let html = `<div class="time-container active">
-                            <h3><span class="highlight-text">${currentTheme.name}</span> 시간 선택 (실시간)</h3>
+                            <h3><span class="highlight-text">${currentTheme.name}</span> 시간 선택</h3>
                             <div class="time-grid">`;
 
             for (let i = 0; i < currentTheme.times.length; i++) {
-                const isDisabled = currentTheme.disabled && currentTheme.disabled[i];
-                const disabledAttr = isDisabled ? 'disabled style="opacity: 0.4; cursor: not-allowed;"' : '';
-                html += `<button class="time-btn" onclick="selectTime('${currentTheme.times[i]}', '${currentTheme.nums[i]}', this)" ${disabledAttr}>${currentTheme.times[i]}</button>`;
+                html += `<button class="time-btn" onclick="selectTime('${currentTheme.times[i]}', '${currentTheme.nums[i]}', this)">${currentTheme.times[i]}</button>`;
             }
 
             html += `</div></div>`;
