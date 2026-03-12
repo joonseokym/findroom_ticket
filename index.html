@@ -931,7 +931,6 @@
         async function fetchDynamicTimeNums(branchKey, themeKey) {
             const zizumNum = currentBranch.zizumNum;
             const themeNum = currentTheme.themeNum;
-            const themeInfoNum = currentTheme.themeInfoNum;
             
             const targetUrl = `https://www.keyescape.com/controller/run_proc.php`;
 
@@ -943,10 +942,10 @@
             formData.append('themeNum', themeNum);
             formData.append('endDay', '0');
 
-            // 순서대로 시도할 CORS 프록시 목록 (하나라도 성공하면 중단)
+            // POST를 지원하는 CORS 프록시 목록 (allorigins.win은 GET-only라 제외)
             const proxyList = [
                 'https://corsproxy.io/?' + encodeURIComponent(targetUrl),
-                'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl),
+                'https://api.cors.lol/?url=' + encodeURIComponent(targetUrl),
                 'https://thingproxy.freeboard.io/fetch/' + targetUrl,
             ];
 
@@ -959,8 +958,11 @@
                     },
                     body: formData.toString()
                 });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const text = await response.text();
                 const json = JSON.parse(text); // 파싱 실패 시 catch로 넘어감
+                // status가 없거나 false면 프록시가 POST를 제대로 전달 못한 것
+                if (!json.hasOwnProperty('status')) throw new Error('응답에 status 필드 없음 (프록시가 POST body를 전달 못함)');
                 return json;
             }
 
@@ -968,7 +970,8 @@
                 try {
                     const jsonData = await tryFetch(proxyUrl);
                     
-                    if (jsonData.status && jsonData.data && jsonData.data.length > 0) {
+                    if (jsonData.data && jsonData.data.length > 0) {
+                        // 시간표 데이터가 있는 경우 — 정상 적용
                         const newTimes = [];
                         const newNums = [];
                         const newDisabled = [];
@@ -983,19 +986,21 @@
                         currentTheme.times = newTimes;
                         currentTheme.nums = newNums;
                         currentTheme.disabled = newDisabled;
-                        console.log(`✅ [${proxyUrl.split('?')[0]}] 실시간 스케줄 로드 성공`);
-                        return; // 성공하면 바로 종료
+                        console.log(`✅ 실시간 스케줄 로드 성공 (${proxyUrl.split('/')[2]})`);
+                        return;
                     } else {
-                        console.warn(`[${proxyUrl.split('?')[0]}] 응답은 받았으나 data 없음 (날짜 미오픈 또는 전체 매진)`);
-                        // 데이터가 없어도 일단 여기서 break — 전체 매진/미오픈 상태
+                        // status:true인데 data가 비어있음 = 해당 날짜 전체 매진 or 아직 오픈 전
+                        // 이 경우 hardcoded times를 유지하되 모두 disabled 처리
+                        currentTheme.disabled = currentTheme.times.map(() => true);
+                        console.warn(`⚠️ 전체 매진 또는 해당 날짜 미오픈 (${proxyUrl.split('/')[2]})`);
                         return;
                     }
                 } catch (err) {
-                    console.warn(`⚠️ 프록시 실패, 다음 시도: ${proxyUrl.split('?')[0]}`, err);
+                    console.warn(`⚠️ 프록시 실패, 다음 시도 (${proxyUrl.split('/')[2]}):`, err.message || err);
                 }
             }
 
-            console.error("❌ 모든 프록시에서 실시간 시간 데이터 불러오기 실패. 하드코딩된 데이터 유지.");
+            console.error("❌ 모든 프록시 실패. 하드코딩된 데이터 유지 (매진 정보 없음).");
         }
 
         async function selectTheme(themeKey, btnElement) {
