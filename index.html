@@ -933,19 +933,24 @@
             const themeNum = currentTheme.themeNum;
             const themeInfoNum = currentTheme.themeInfoNum;
             
-            // 키이스케이프 실시간 달력 AJAX 요청 URL (JSON 반환)
             const targetUrl = `https://www.keyescape.com/controller/run_proc.php`;
-            const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(targetUrl);
 
-            try {
-                // 키이스케이프 서버가 요구하는 POST 데이터 형식
-                const formData = new URLSearchParams();
-                formData.append('t', 'get_theme_time');
-                formData.append('date', targetDateStr);
-                formData.append('zizumNum', zizumNum);
-                formData.append('themeNum', themeNum);
-                formData.append('endDay', '0');
-                
+            // 키이스케이프 서버가 요구하는 POST 데이터 형식
+            const formData = new URLSearchParams();
+            formData.append('t', 'get_theme_time');
+            formData.append('date', targetDateStr);
+            formData.append('zizumNum', zizumNum);
+            formData.append('themeNum', themeNum);
+            formData.append('endDay', '0');
+
+            // 순서대로 시도할 CORS 프록시 목록 (하나라도 성공하면 중단)
+            const proxyList = [
+                'https://corsproxy.io/?' + encodeURIComponent(targetUrl),
+                'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl),
+                'https://thingproxy.freeboard.io/fetch/' + targetUrl,
+            ];
+
+            async function tryFetch(proxyUrl) {
                 const response = await fetch(proxyUrl, {
                     method: 'POST',
                     headers: {
@@ -954,11 +959,14 @@
                     },
                     body: formData.toString()
                 });
-                
-                const responseText = await response.text();
-                
+                const text = await response.text();
+                const json = JSON.parse(text); // 파싱 실패 시 catch로 넘어감
+                return json;
+            }
+
+            for (const proxyUrl of proxyList) {
                 try {
-                    const jsonData = JSON.parse(responseText);
+                    const jsonData = await tryFetch(proxyUrl);
                     
                     if (jsonData.status && jsonData.data && jsonData.data.length > 0) {
                         const newTimes = [];
@@ -968,22 +976,26 @@
                         jsonData.data.forEach(item => {
                             const timeStr = item.hh + ':' + item.mm;
                             newTimes.push(timeStr);
-                            newNums.push(item.num);
+                            newNums.push(String(item.num));
                             newDisabled.push(item.enable !== 'Y');
                         });
                         
                         currentTheme.times = newTimes;
                         currentTheme.nums = newNums;
                         currentTheme.disabled = newDisabled;
+                        console.log(`✅ [${proxyUrl.split('?')[0]}] 실시간 스케줄 로드 성공`);
+                        return; // 성공하면 바로 종료
                     } else {
-                        console.warn("API 응답에 시간표 데이터가 없습니다. (해당 날짜 오픈 전이거나 매진)");
+                        console.warn(`[${proxyUrl.split('?')[0]}] 응답은 받았으나 data 없음 (날짜 미오픈 또는 전체 매진)`);
+                        // 데이터가 없어도 일단 여기서 break — 전체 매진/미오픈 상태
+                        return;
                     }
-                } catch (parseErr) {
-                    console.error("JSON 파싱 에러 (웹 방화벽 차단 가능성):", parseErr);
+                } catch (err) {
+                    console.warn(`⚠️ 프록시 실패, 다음 시도: ${proxyUrl.split('?')[0]}`, err);
                 }
-            } catch (err) {
-                console.error("실시간 시간 데이터 불러오기 실패:", err);
             }
+
+            console.error("❌ 모든 프록시에서 실시간 시간 데이터 불러오기 실패. 하드코딩된 데이터 유지.");
         }
 
         async function selectTheme(themeKey, btnElement) {
