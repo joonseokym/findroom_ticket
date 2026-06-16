@@ -1,0 +1,162 @@
+{
+  "branches": {
+    "MEMORY": {
+      "branchKey": "MEMORY",
+      "name": "메모리컴퍼니",
+      "zizumNum": "18",
+      "themes": [
+        {
+          "themeNum": "57",
+          "themeInfoNum": "34",
+          "name": "FILM BY EDDY",
+          "doing": "7"
+        },
+        {
+          "themeNum": "58",
+          "themeInfoNum": "35",
+          "name": "FILM BY STEVE",
+          "doing": "7"
+        },
+        {
+          "themeNum": "59",
+          "themeInfoNum": "36",
+          "name": "FILM BY BOB",
+          "doing": "7"
+        }
+      ],
+      "actualName": "메모리컴퍼니"
+    },
+    "WHOSTHERE": {
+      "branchKey": "WHOSTHERE",
+      "name": "후즈데어",
+      "zizumNum": "23",
+      "themes": [
+        {
+          "themeNum": "71",
+          "themeInfoNum": "63",
+          "name": "AYAKO",
+          "doing": "7"
+        },
+        {
+          "themeNum": "69",
+          "themeInfoNum": "60",
+          "name": "투투 어드벤쳐",
+          "doing": "7"
+        },
+        {
+          "themeNum": "70",
+          "themeInfoNum": "61",
+          "name": "괴록",
+          "doing": "7"
+        }
+      ],
+      "actualName": "후즈데어"
+    },
+    "GANGNAM_ST": {
+      "branchKey": "GANGNAM_ST",
+      "name": "강남스테이션",
+      "zizumNum": "22",
+      "themes": [
+        {
+          "themeNum": "65",
+          "themeInfoNum": "43",
+          "name": "머니머니부동산",
+          "doing": "7"
+        },
+        {
+          "themeNum": "66",
+          "themeInfoNum": "44",
+          "name": "내 방",
+          "doing": "7"
+        },
+        {
+          "themeNum": "67",
+          "themeInfoNum": "45",
+          "name": "NOSTALGIA VISTA",
+          "doing": "7"
+        }
+      ],
+      "actualName": "STATION"
+    },
+    "LOGIN_1": {
+      "branchKey": "LOGIN_1",
+      "name": "LOG_IN 1",
+      "zizumNum": "19",
+      "themes": [
+        {
+          "themeNum": "63",
+          "themeInfoNum": "41",
+          "name": "FOR FREE",
+          "doing": "7"
+        },
+        {
+          "themeNum": "60",
+          "themeInfoNum": "38",
+          "name": "머니머니패키지",
+          "doing": "7"
+        }
+      ],
+      "actualName": "LOG_IN 1"
+    },
+    "LOGIN_2": {
+      "branchKey": "LOGIN_2",
+      "name": "LOG_IN 2",
+      "zizumNum": "20",
+      "themes": [
+        {
+          "themeNum": "64",
+          "themeInfoNum": "42",
+          "name": "A GENTLE MONDAY",
+          "doing": "7"
+        },
+        {
+          "themeNum": "61",
+          "themeInfoNum": "40",
+          "name": "BACK TO THE SCENE+",
+          "doing": "7"
+        }
+      ],
+      "actualName": "LOG_IN 2"
+    },
+    "WOOJU": {
+      "branchKey": "WOOJU",
+      "name": "우주라이크",
+      "zizumNum": "16",
+      "themes": [
+        {
+          "themeNum": "56",
+          "themeInfoNum": "33",
+          "name": "WANNA GO HOME",
+          "doing": "7"
+        },
+        {
+          "themeNum": "55",
+          "themeInfoNum": "31",
+          "name": "US",
+          "doing": "7"
+        }
+      ],
+      "actualName": "우주라이크"
+    },
+    "GANGNAM_OREUM": {
+      "branchKey": "GANGNAM_OREUM",
+      "name": "강남 더오름",
+      "zizumNum": "14",
+      "themes": [
+        {
+          "themeNum": "51",
+          "themeInfoNum": "27",
+          "name": "엔제리오",
+          "doing": "7"
+        },
+        {
+          "themeNum": "48",
+          "themeInfoNum": "26",
+          "name": "네드",
+          "doing": "7"
+        }
+      ],
+      "actualName": "더오름"
+    }
+  }
+}

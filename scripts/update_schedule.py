@@ -5,61 +5,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-
-BRANCHES = {
-    "MEMORY": {
-        "zizumNum": "18",
-        "themes": {
-            "EDDY": {"themeNum": "57"},
-            "STEVE": {"themeNum": "58"},
-            "BOB": {"themeNum": "59"},
-        },
-    },
-    "WHOSTHERE": {
-        "zizumNum": "23",
-        "themes": {
-            "AYAKO": {"themeNum": "71"},
-            "TUTU": {"themeNum": "69"},
-            "GOEROK": {"themeNum": "70"},
-        },
-    },
-    "GANGNAM_ST": {
-        "zizumNum": "22",
-        "themes": {
-            "MONEY_ESTATE": {"themeNum": "65"},
-            "MY_ROOM": {"themeNum": "66"},
-            "NOSTALGIA": {"themeNum": "67"},
-        },
-    },
-    "LOGIN_1": {
-        "zizumNum": "19",
-        "themes": {
-            "MONEY_PKG": {"themeNum": "60"},
-            "FOR_FREE": {"themeNum": "63"},
-        },
-    },
-    "LOGIN_2": {
-        "zizumNum": "20",
-        "themes": {
-            "GENTLE_MON": {"themeNum": "64"},
-            "BACKTO": {"themeNum": "61"},
-        },
-    },
-    "WOOJU": {
-        "zizumNum": "16",
-        "themes": {
-            "WANNA": {"themeNum": "56"},
-            "US": {"themeNum": "55"},
-        },
-    },
-    "GANGNAM_OREUM": {
-        "zizumNum": "14",
-        "themes": {
-            "ANGELIO": {"themeNum": "51"},
-            "NED": {"themeNum": "48"},
-        },
-    },
-}
+from theme_config import BRANCHES
 
 
 def target_date():
