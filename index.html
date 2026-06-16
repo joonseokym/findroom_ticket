@@ -445,6 +445,23 @@
             letter-spacing: 1px;
         }
 
+        .time-btn:disabled,
+        .time-btn.is-disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            pointer-events: none;
+        }
+
+        .time-state {
+            display: block;
+            margin-top: 4px;
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0;
+        }
+
         .time-btn.selected {
             background: rgba(255, 255, 255, 0.2);
             border-color: rgba(255, 255, 255, 0.5);
@@ -728,6 +745,7 @@
         let currentTheme = null;
         let currentTime = null;
         let currentNum = null;
+        let currentTimeIndex = null;
         let countdownInterval = null;
         let serverTimeOffset = 0; // Local_Time + ServerTimeOffset = Server_Time 
 
@@ -885,6 +903,7 @@
             currentTheme = null;
             currentTime = null;
             currentNum = null;
+            currentTimeIndex = null;
 
             document.querySelectorAll('#branchWrapper button').forEach(btn => btn.classList.remove('active'));
             if (btnElement) btnElement.classList.add('active');
@@ -929,6 +948,33 @@
             timeWrapper.innerHTML = ''; // Hide times when branch changes
         }
 
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, char => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[char]));
+        }
+
+        function isSlotClosed(item) {
+            const enable = String(item?.enable ?? '').trim().toUpperCase();
+            const saleText = String(item?.sale_txt ?? '');
+            return enable !== 'Y' || /\uB9C8\uAC10|\uC608\uC57D\uC644\uB8CC|\uC608\uC57D\uBD88\uAC00|closed|sold/i.test(saleText);
+        }
+
+        function markCurrentThemeUnavailable(reasonText = '\uD655\uC778 \uBD88\uAC00') {
+            if (!currentTheme) return;
+
+            currentTheme.disabled = currentTheme.times.map(() => true);
+            currentTheme.saleTexts = currentTheme.times.map(() => reasonText);
+        }
+
+        function isCurrentTimeDisabled(index) {
+            return !currentTheme || !currentTheme.times || currentTheme.disabled?.[index] !== false;
+        }
+
         async function fetchDynamicTimeNums(branchKey, themeKey) {
             const zizumNum = currentBranch.zizumNum;
             const themeNum = currentTheme.themeNum;
@@ -950,8 +996,7 @@
                 const response = await fetch(proxyUrl, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                        'X-Requested-With': 'XMLHttpRequest'
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body: formData.toString()
                 });
@@ -965,25 +1010,32 @@
                         const newTimes = [];
                         const newNums = [];
                         const newDisabled = [];
+                        const newSaleTexts = [];
                         
                         jsonData.data.forEach(item => {
                             const timeStr = item.hh + ':' + item.mm;
                             newTimes.push(timeStr);
                             newNums.push(item.num);
-                            newDisabled.push(item.enable !== 'Y');
+                            newDisabled.push(isSlotClosed(item));
+                            newSaleTexts.push(item.sale_txt || '');
                         });
                         
                         currentTheme.times = newTimes;
                         currentTheme.nums = newNums;
                         currentTheme.disabled = newDisabled;
+                        currentTheme.saleTexts = newSaleTexts;
+                        return true;
                     } else {
-                        console.warn("API 응답에 시간표 데이터가 없습니다. (해당 날짜 오픈 전이거나 매진)");
+                        markCurrentThemeUnavailable();
+                        return false;
                     }
                 } catch (parseErr) {
-                    console.error("JSON 파싱 에러 (웹 방화벽 차단 가능성):", parseErr);
+                    markCurrentThemeUnavailable();
+                    return false;
                 }
             } catch (err) {
-                console.error("실시간 시간 데이터 불러오기 실패:", err);
+                markCurrentThemeUnavailable();
+                return false;
             }
         }
 
@@ -991,6 +1043,7 @@
             currentTheme = currentBranch.themes[themeKey];
             currentTime = null;
             currentNum = null;
+            currentTimeIndex = null;
 
             document.querySelectorAll('#themeWrapper button').forEach(btn => btn.classList.remove('active'));
             if (btnElement) btnElement.classList.add('active');
@@ -1036,18 +1089,30 @@
                             <div class="time-grid">`;
 
             for (let i = 0; i < currentTheme.times.length; i++) {
-                const isDisabled = currentTheme.disabled && currentTheme.disabled[i];
-                const disabledAttr = isDisabled ? 'disabled style="opacity: 0.4; cursor: not-allowed;"' : '';
-                html += `<button class="time-btn" onclick="selectTime('${currentTheme.times[i]}', '${currentTheme.nums[i]}', this)" ${disabledAttr}>${currentTheme.times[i]}</button>`;
+                const isDisabled = isCurrentTimeDisabled(i);
+                const disabledAttr = isDisabled ? 'disabled aria-disabled="true"' : '';
+                const disabledClass = isDisabled ? ' is-disabled' : '';
+                const saleText = currentTheme.saleTexts?.[i] || (isDisabled ? '\uB9C8\uAC10' : '');
+                const saleLabel = saleText ? `<span class="time-state">${escapeHtml(saleText)}</span>` : '';
+
+                html += `<button type="button" class="time-btn${disabledClass}" onclick="selectTimeByIndex(${i}, this)" ${disabledAttr}>${escapeHtml(currentTheme.times[i])}${saleLabel}</button>`;
             }
 
             html += `</div></div>`;
             wrapper.innerHTML = html;
         }
 
-        function selectTime(time, num, btnElement) {
+        function selectTimeByIndex(index, btnElement) {
+            if (isCurrentTimeDisabled(index) || btnElement?.disabled) return;
+            selectTime(currentTheme.times[index], currentTheme.nums[index], btnElement, index);
+        }
+
+        function selectTime(time, num, btnElement, index) {
+            if (isCurrentTimeDisabled(index) || btnElement?.disabled) return;
+
             currentTime = time;
             currentNum = num;
+            currentTimeIndex = index;
 
             document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('selected'));
             btnElement.classList.add('selected');
@@ -1066,7 +1131,7 @@
             const statusText = document.getElementById('statusText');
             const submitBtn = document.getElementById('submitBtn');
 
-            if (currentBranch && currentTheme && currentTime) {
+            if (currentBranch && currentTheme && currentTime && !isCurrentTimeDisabled(currentTimeIndex)) {
                 statusText.innerHTML = `예약일: <span class="highlight-text">${targetDateStr}</span> <br> 구성: <span class="highlight-text">${currentBranch.name}</span> - <span class="highlight-text">${currentTheme.name}</span> - <span class="highlight-text">${currentTime}</span>`;
                 submitBtn.disabled = false;
             } else if (currentTheme) {
@@ -1082,8 +1147,10 @@
         }
 
         function submitForm() {
-            if (currentBranch && currentTheme && currentTime) {
+            if (currentBranch && currentTheme && currentTime && !isCurrentTimeDisabled(currentTimeIndex)) {
                 document.getElementById('reservationForm').submit();
+            } else {
+                updateStatus();
             }
         }
 
