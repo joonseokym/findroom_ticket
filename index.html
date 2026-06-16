@@ -746,16 +746,28 @@
         let currentTime = null;
         let currentNum = null;
         let currentTimeIndex = null;
+        let scheduleDataPromise = null;
         let countdownInterval = null;
         let serverTimeOffset = 0; // Local_Time + ServerTimeOffset = Server_Time 
 
-        // 오늘 + 6일 날짜 계산 및 설정 (YYYY-MM-DD 포맷)
-        const targetDate = new Date();
-        targetDate.setDate(targetDate.getDate() + 6);
-        const year = targetDate.getFullYear();
-        const month = String(targetDate.getMonth() + 1).padStart(2, '0');
-        const day = String(targetDate.getDate()).padStart(2, '0');
-        const targetDateStr = `${year}-${month}-${day}`;
+        function getKoreanDateString(daysAhead) {
+            const formatter = new Intl.DateTimeFormat('en-CA', {
+                timeZone: 'Asia/Seoul',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+            const parts = Object.fromEntries(
+                formatter.formatToParts(new Date()).map(part => [part.type, part.value])
+            );
+            const targetDate = new Date(`${parts.year}-${parts.month}-${parts.day}T00:00:00+09:00`);
+            targetDate.setUTCDate(targetDate.getUTCDate() + daysAhead);
+
+            return formatter.format(targetDate);
+        }
+
+        // 오늘 + 6일 날짜 계산 및 설정 (YYYY-MM-DD 포맷, 한국 시간 기준)
+        const targetDateStr = getKoreanDateString(6);
 
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('form-revDays').value = targetDateStr;
@@ -975,7 +987,50 @@
             return !currentTheme || !currentTheme.times || currentTheme.disabled?.[index] !== false;
         }
 
+        function applyTimeItems(items) {
+            if (!Array.isArray(items) || items.length === 0) return false;
+
+            const newTimes = [];
+            const newNums = [];
+            const newDisabled = [];
+            const newSaleTexts = [];
+
+            items.forEach(item => {
+                const timeStr = item.time || `${item.hh}:${item.mm}`;
+                newTimes.push(timeStr);
+                newNums.push(item.num);
+                newDisabled.push(isSlotClosed(item));
+                newSaleTexts.push(item.sale_txt || '');
+            });
+
+            currentTheme.times = newTimes;
+            currentTheme.nums = newNums;
+            currentTheme.disabled = newDisabled;
+            currentTheme.saleTexts = newSaleTexts;
+            return true;
+        }
+
+        async function loadScheduleData() {
+            if (!scheduleDataPromise) {
+                scheduleDataPromise = fetch('./data/schedule.json?enc=' + new Date().getTime())
+                    .then(response => response.ok ? response.json() : null)
+                    .catch(() => null);
+            }
+
+            return scheduleDataPromise;
+        }
+
+        async function fetchCachedTimeNums(branchKey, themeKey) {
+            const scheduleData = await loadScheduleData();
+            if (!scheduleData || scheduleData.date !== targetDateStr) return false;
+
+            const items = scheduleData.branches?.[branchKey]?.themes?.[themeKey];
+            return applyTimeItems(items);
+        }
+
         async function fetchDynamicTimeNums(branchKey, themeKey) {
+            if (await fetchCachedTimeNums(branchKey, themeKey)) return true;
+
             const zizumNum = currentBranch.zizumNum;
             const themeNum = currentTheme.themeNum;
             const themeInfoNum = currentTheme.themeInfoNum;
@@ -1007,24 +1062,7 @@
                     const jsonData = JSON.parse(responseText);
                     
                     if (jsonData.status && jsonData.data && jsonData.data.length > 0) {
-                        const newTimes = [];
-                        const newNums = [];
-                        const newDisabled = [];
-                        const newSaleTexts = [];
-                        
-                        jsonData.data.forEach(item => {
-                            const timeStr = item.hh + ':' + item.mm;
-                            newTimes.push(timeStr);
-                            newNums.push(item.num);
-                            newDisabled.push(isSlotClosed(item));
-                            newSaleTexts.push(item.sale_txt || '');
-                        });
-                        
-                        currentTheme.times = newTimes;
-                        currentTheme.nums = newNums;
-                        currentTheme.disabled = newDisabled;
-                        currentTheme.saleTexts = newSaleTexts;
-                        return true;
+                        return applyTimeItems(jsonData.data);
                     } else {
                         markCurrentThemeUnavailable();
                         return false;
