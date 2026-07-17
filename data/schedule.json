@@ -63,7 +63,7 @@
           {
             "time": "09:40",
             "num": "2303",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -87,13 +87,13 @@
           {
             "time": "13:40",
             "num": "1831",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
             "time": "14:40",
             "num": "1832",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -111,13 +111,13 @@
           {
             "time": "17:40",
             "num": "1835",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
             "time": "18:40",
             "num": "1836",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -197,7 +197,7 @@
           {
             "time": "22:05",
             "num": "2040",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           }
         ]
@@ -569,7 +569,7 @@
           {
             "time": "12:05",
             "num": "2308",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -951,7 +951,7 @@
           {
             "time": "21:50",
             "num": "2416",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           }
         ],
@@ -959,7 +959,7 @@
           {
             "time": "10:10",
             "num": "2394",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -989,7 +989,7 @@
           {
             "time": "14:45",
             "num": "2399",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -1147,7 +1147,7 @@
           {
             "time": "19:15",
             "num": "1679",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
