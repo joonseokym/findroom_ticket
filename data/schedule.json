@@ -471,7 +471,7 @@
           {
             "time": "09:50",
             "num": "2176",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -483,13 +483,13 @@
           {
             "time": "11:50",
             "num": "2178",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
             "time": "12:50",
             "num": "2180",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -569,13 +569,13 @@
           {
             "time": "12:05",
             "num": "2308",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
             "time": "12:50",
             "num": "2376",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -611,13 +611,13 @@
           {
             "time": "17:30",
             "num": "2311",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
             "time": "18:20",
             "num": "2380",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -635,13 +635,13 @@
           {
             "time": "20:40",
             "num": "2313",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
             "time": "21:25",
             "num": "2382",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -805,7 +805,7 @@
           {
             "time": "20:00",
             "num": "1880",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -817,7 +817,7 @@
           {
             "time": "22:40",
             "num": "1982",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           }
         ],
@@ -915,7 +915,7 @@
           {
             "time": "14:15",
             "num": "2120",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -933,7 +933,7 @@
           {
             "time": "18:45",
             "num": "2124",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -1007,13 +1007,13 @@
           {
             "time": "18:20",
             "num": "1921",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
             "time": "19:15",
             "num": "1922",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -1043,7 +1043,7 @@
           {
             "time": "10:00",
             "num": "1760",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -1141,7 +1141,7 @@
           {
             "time": "19:15",
             "num": "1679",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -1177,7 +1177,7 @@
           {
             "time": "12:50",
             "num": "1516",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -1201,7 +1201,7 @@
           {
             "time": "18:50",
             "num": "1520",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -1245,7 +1245,7 @@
           {
             "time": "16:00",
             "num": "1474",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -1257,7 +1257,7 @@
           {
             "time": "19:00",
             "num": "1782",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
