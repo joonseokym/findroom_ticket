@@ -617,7 +617,7 @@
           {
             "time": "18:20",
             "num": "2389",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -679,7 +679,7 @@
           {
             "time": "12:55",
             "num": "2437",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -733,7 +733,7 @@
           {
             "time": "20:25",
             "num": "2445",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -861,7 +861,7 @@
           {
             "time": "17:30",
             "num": "2074",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
