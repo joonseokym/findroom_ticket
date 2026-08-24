@@ -1165,13 +1165,13 @@
           {
             "time": "09:50",
             "num": "1541",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
             "time": "11:20",
             "num": "1542",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
