@@ -647,7 +647,7 @@
           {
             "time": "22:10",
             "num": "2373",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           }
         ],
@@ -1085,13 +1085,13 @@
           {
             "time": "20:30",
             "num": "1748",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
             "time": "22:00",
             "num": "1768",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           }
         ],
@@ -1105,7 +1105,7 @@
           {
             "time": "11:15",
             "num": "1705",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -1141,19 +1141,19 @@
           {
             "time": "19:15",
             "num": "1712",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
             "time": "20:35",
             "num": "1713",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
             "time": "21:55",
             "num": "1714",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           }
         ]
@@ -1165,7 +1165,7 @@
           {
             "time": "09:50",
             "num": "1541",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -1195,7 +1195,7 @@
           {
             "time": "17:20",
             "num": "1786",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -1207,13 +1207,13 @@
           {
             "time": "20:20",
             "num": "1547",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
             "time": "21:50",
             "num": "1548",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           }
         ],
@@ -1263,13 +1263,13 @@
           {
             "time": "20:30",
             "num": "1785",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
             "time": "22:00",
             "num": "1501",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           }
         ]
