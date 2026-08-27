@@ -38,6 +38,7 @@ BRANCHES = {
         "name": "LOG_IN 2",
         "zizumNum": "20",
         "themes": {
+            "NOT_MONKEY": {"name": "NOT MONKEY PROJECT", "themeNum": "95", "themeInfoNum": "83"},
             "GENTLE_MON": {"name": "A GENTLE MONDAY", "themeNum": "64", "themeInfoNum": "42"},
             "BACKTO": {"name": "BACK TO THE SCENE+", "themeNum": "61", "themeInfoNum": "40"},
         },
