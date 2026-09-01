@@ -3,9 +3,204 @@
   "branches": {
     "MEMORY": {
       "themes": {
-        "EDDY": [],
-        "STEVE": [],
-        "BOB": []
+        "EDDY": [
+          {
+            "time": "09:15",
+            "num": "2105",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "10:45",
+            "num": "1998",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "12:15",
+            "num": "1793",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "13:45",
+            "num": "1794",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "15:20",
+            "num": "1795",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "16:50",
+            "num": "1796",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "18:20",
+            "num": "1797",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "19:50",
+            "num": "1798",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "21:25",
+            "num": "1799",
+            "enable": "N",
+            "sale_txt": ""
+          }
+        ],
+        "STEVE": [
+          {
+            "time": "09:40",
+            "num": "2303",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "10:40",
+            "num": "1828",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "11:40",
+            "num": "1829",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "12:40",
+            "num": "1830",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "13:40",
+            "num": "1831",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "14:40",
+            "num": "1832",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "15:40",
+            "num": "1833",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "16:40",
+            "num": "1834",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:40",
+            "num": "1835",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "18:40",
+            "num": "1836",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "19:40",
+            "num": "1837",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "20:40",
+            "num": "2036",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "21:40",
+            "num": "1838",
+            "enable": "N",
+            "sale_txt": ""
+          }
+        ],
+        "BOB": [
+          {
+            "time": "09:10",
+            "num": "1983",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "10:35",
+            "num": "1984",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "12:00",
+            "num": "2815",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "13:25",
+            "num": "1985",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "14:50",
+            "num": "2037",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "16:20",
+            "num": "1986",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:45",
+            "num": "1987",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "19:15",
+            "num": "2038",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "20:40",
+            "num": "2039",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "22:05",
+            "num": "2040",
+            "enable": "N",
+            "sale_txt": ""
+          }
+        ]
       }
     },
     "WHOSTHERE": {
@@ -24,27 +219,570 @@
     },
     "LOGIN_1": {
       "themes": {
-        "MONEY_PKG": [],
-        "FOR_FREE": []
+        "MONEY_PKG": [
+          {
+            "time": "09:20",
+            "num": "1872",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "10:40",
+            "num": "1873",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "12:00",
+            "num": "1874",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "13:20",
+            "num": "1875",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "14:40",
+            "num": "1876",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "16:00",
+            "num": "1877",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:20",
+            "num": "1878",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "18:40",
+            "num": "1879",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "20:00",
+            "num": "1880",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "21:20",
+            "num": "1881",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "22:40",
+            "num": "1982",
+            "enable": "Y",
+            "sale_txt": ""
+          }
+        ],
+        "FOR_FREE": [
+          {
+            "time": "09:30",
+            "num": "2057",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "10:50",
+            "num": "2058",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "12:10",
+            "num": "2059",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "13:30",
+            "num": "2060",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "14:50",
+            "num": "2061",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "16:10",
+            "num": "2062",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:30",
+            "num": "2063",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "18:50",
+            "num": "2064",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "20:10",
+            "num": "2065",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "21:30",
+            "num": "2066",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "22:45",
+            "num": "2067",
+            "enable": "Y",
+            "sale_txt": ""
+          }
+        ]
       }
     },
     "LOGIN_2": {
       "themes": {
-        "NOT_MONKEY": [],
-        "GENTLE_MON": [],
-        "BACKTO": []
+        "NOT_MONKEY": [
+          {
+            "time": "09:50",
+            "num": "3478",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "11:35",
+            "num": "3479",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "13:30",
+            "num": "3480",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "15:20",
+            "num": "3481",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:30",
+            "num": "3482",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "19:20",
+            "num": "3483",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "21:15",
+            "num": "3484",
+            "enable": "N",
+            "sale_txt": ""
+          }
+        ],
+        "GENTLE_MON": [
+          {
+            "time": "09:50",
+            "num": "2117",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "11:20",
+            "num": "2118",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "12:45",
+            "num": "2119",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "14:15",
+            "num": "2120",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "15:45",
+            "num": "2121",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:15",
+            "num": "2123",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "18:45",
+            "num": "2124",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "20:20",
+            "num": "2125",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "21:50",
+            "num": "2126",
+            "enable": "Y",
+            "sale_txt": ""
+          }
+        ],
+        "BACKTO": [
+          {
+            "time": "10:05",
+            "num": "1912",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "11:00",
+            "num": "1913",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "11:55",
+            "num": "1914",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "12:50",
+            "num": "1915",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "13:45",
+            "num": "1916",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "14:40",
+            "num": "1917",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "15:35",
+            "num": "1918",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "16:30",
+            "num": "1919",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:25",
+            "num": "1920",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "18:20",
+            "num": "1921",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "19:15",
+            "num": "1922",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "20:10",
+            "num": "1923",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "21:05",
+            "num": "1924",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "22:00",
+            "num": "1925",
+            "enable": "Y",
+            "sale_txt": ""
+          }
+        ]
       }
     },
     "WOOJU": {
       "themes": {
-        "WANNA": [],
-        "US": []
+        "WANNA": [
+          {
+            "time": "10:00",
+            "num": "1760",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "11:30",
+            "num": "1733",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "13:00",
+            "num": "1777",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "14:30",
+            "num": "1734",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "16:00",
+            "num": "1735",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:30",
+            "num": "1778",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "19:00",
+            "num": "1736",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "20:30",
+            "num": "1737",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "22:00",
+            "num": "1779",
+            "enable": "Y",
+            "sale_txt": ""
+          }
+        ],
+        "US": [
+          {
+            "time": "09:55",
+            "num": "1671",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "11:15",
+            "num": "1672",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "12:35",
+            "num": "1673",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "13:55",
+            "num": "1674",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "15:15",
+            "num": "1675",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "16:35",
+            "num": "1676",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:55",
+            "num": "1678",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "19:15",
+            "num": "1679",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "20:35",
+            "num": "1680",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "21:55",
+            "num": "1681",
+            "enable": "Y",
+            "sale_txt": ""
+          }
+        ]
       }
     },
     "GANGNAM_OREUM": {
       "themes": {
-        "ANGELIO": [],
-        "NED": []
+        "ANGELIO": [
+          {
+            "time": "09:50",
+            "num": "1514",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "11:20",
+            "num": "1515",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "12:50",
+            "num": "1516",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "14:20",
+            "num": "1517",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "15:50",
+            "num": "1518",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:20",
+            "num": "1519",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "18:50",
+            "num": "1520",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "20:20",
+            "num": "1521",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "21:50",
+            "num": "1522",
+            "enable": "Y",
+            "sale_txt": ""
+          }
+        ],
+        "NED": [
+          {
+            "time": "10:00",
+            "num": "1470",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "11:30",
+            "num": "1471",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "13:00",
+            "num": "1472",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "14:30",
+            "num": "1473",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "16:00",
+            "num": "1474",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:30",
+            "num": "1475",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "19:00",
+            "num": "1782",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "20:30",
+            "num": "1476",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "22:00",
+            "num": "1477",
+            "enable": "Y",
+            "sale_txt": ""
+          }
+        ]
       }
     }
   }
