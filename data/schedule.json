@@ -381,7 +381,7 @@
           {
             "time": "09:40",
             "num": "3140",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -393,7 +393,7 @@
           {
             "time": "11:35",
             "num": "2894",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -513,7 +513,7 @@
           {
             "time": "16:50",
             "num": "2284",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -569,7 +569,7 @@
           {
             "time": "12:05",
             "num": "2308",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -617,7 +617,7 @@
           {
             "time": "18:20",
             "num": "2380",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -673,13 +673,13 @@
           {
             "time": "12:05",
             "num": "2421",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
             "time": "12:55",
             "num": "2422",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -739,7 +739,7 @@
           {
             "time": "21:15",
             "num": "3476",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -831,7 +831,7 @@
           {
             "time": "10:50",
             "num": "2058",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -861,7 +861,7 @@
           {
             "time": "17:30",
             "num": "2063",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -879,7 +879,7 @@
           {
             "time": "21:30",
             "num": "2066",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -959,13 +959,13 @@
           {
             "time": "14:15",
             "num": "2120",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
             "time": "15:45",
             "num": "2121",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -1039,7 +1039,7 @@
           {
             "time": "16:30",
             "num": "1919",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -1191,7 +1191,7 @@
           {
             "time": "20:35",
             "num": "1680",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
