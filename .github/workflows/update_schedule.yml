@@ -2,12 +2,22 @@ name: Update Keyescape Schedule
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '2-57/5 * * * *'
   workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/update_schedule.py'
+      - 'scripts/theme_config.py'
+      - '.github/workflows/update_schedule.yml'
+
+concurrency:
+  group: update-keyescape-schedule
+  cancel-in-progress: false
 
 jobs:
   update-schedule:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
       pages: write
@@ -20,6 +30,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+
+      - name: Run schedule regression tests
+        run: |
+          python -B -m unittest discover -s tests -p 'test_*.py'
+          node --test tests/schedule.test.cjs
 
       - name: Run schedule fetcher
         run: python scripts/update_schedule.py
@@ -36,6 +51,7 @@ jobs:
             exit 0
           fi
           git commit -m "Update schedule data [skip ci]"
+          git pull --rebase origin master
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
 

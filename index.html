@@ -462,6 +462,33 @@
             letter-spacing: 0;
         }
 
+        .schedule-status {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .schedule-actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .schedule-actions button {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border-radius: 8px;
+            font-size: 20px;
+        }
+
+        .schedule-actions a {
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
         .time-btn.selected {
             background: rgba(255, 255, 255, 0.2);
             border-color: rgba(255, 255, 255, 0.5);
@@ -748,6 +775,8 @@
         let currentNum = null;
         let currentTimeIndex = null;
         let scheduleDataPromise = null;
+        let scheduleLoadedAt = 0;
+        let scheduleRequestId = 0;
         let countdownInterval = null;
         let serverTimeOffset = 0; // Local_Time + ServerTimeOffset = Server_Time 
 
@@ -912,6 +941,7 @@
         }
 
         function selectBranch(branchKey, btnElement) {
+            scheduleRequestId++;
             currentBranch = branchesData[branchKey];
             currentTheme = null;
             currentTime = null;
@@ -977,19 +1007,24 @@
             return enable !== 'Y' || /\uB9C8\uAC10|\uC608\uC57D\uC644\uB8CC|\uC608\uC57D\uBD88\uAC00|closed|sold/i.test(saleText);
         }
 
-        function markCurrentThemeUnavailable(reasonText = '\uD655\uC778 \uBD88\uAC00') {
+        function markCurrentThemeUnavailable(reasonText = '시간표를 불러오지 못했습니다. 다시 조회해주세요.') {
             if (!currentTheme) return;
 
             currentTheme.disabled = currentTheme.times.map(() => true);
-            currentTheme.saleTexts = currentTheme.times.map(() => reasonText);
+            currentTheme.scheduleState = 'unavailable';
+            currentTheme.scheduleMessage = reasonText;
         }
 
         function isCurrentTimeDisabled(index) {
-            return !currentTheme || !currentTheme.times || currentTheme.disabled?.[index] !== false;
+            return !currentTheme || currentTheme.scheduleState !== 'ready'
+                || !Number.isInteger(index) || currentTheme.disabled?.[index] !== false;
         }
 
         function applyTimeItems(items) {
-            if (!Array.isArray(items) || items.length === 0) return false;
+            if (!Array.isArray(items) || items.length === 0 || items.some(item =>
+                !/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(item.time || `${item.hh}:${item.mm}`)
+                || !/^\d+$/.test(String(item.num)) || !['Y', 'N'].includes(item.enable)
+            )) return false;
 
             const newTimes = [];
             const newNums = [];
@@ -1008,84 +1043,86 @@
             currentTheme.nums = newNums;
             currentTheme.disabled = newDisabled;
             currentTheme.saleTexts = newSaleTexts;
+            currentTheme.scheduleState = 'ready';
+            currentTheme.scheduleMessage = '';
             return true;
         }
 
         async function loadScheduleData() {
+            if (Date.now() - scheduleLoadedAt > 60000) scheduleDataPromise = null;
             if (!scheduleDataPromise) {
-                scheduleDataPromise = fetch('./data/schedule.json?enc=' + new Date().getTime())
-                    .then(response => response.ok ? response.json() : null)
-                    .catch(() => null);
+                scheduleLoadedAt = Date.now();
+                scheduleDataPromise = fetch('./data/schedule.json?enc=' + Date.now(), {
+                    cache: 'no-store', signal: AbortSignal.timeout(10000)
+                }).then(response => {
+                    if (!response.ok) throw new Error('Schedule HTTP ' + response.status);
+                    return response.json();
+                }).catch(error => {
+                    scheduleDataPromise = null;
+                    throw error;
+                });
             }
 
             return scheduleDataPromise;
         }
 
-        async function fetchCachedTimeNums(branchKey, themeKey) {
-            const scheduleData = await loadScheduleData();
-            if (!scheduleData || scheduleData.date !== targetDateStr) return false;
-
-            const items = scheduleData.branches?.[branchKey]?.themes?.[themeKey];
-            return applyTimeItems(items);
-        }
-
-        async function fetchDynamicTimeNums(branchKey, themeKey) {
-            if (await fetchCachedTimeNums(branchKey, themeKey)) return true;
-
-            const zizumNum = currentBranch.zizumNum;
-            const themeNum = currentTheme.themeNum;
-            const themeInfoNum = currentTheme.themeInfoNum;
-            
-            // 키이스케이프 실시간 달력 AJAX 요청 URL (JSON 반환)
-            const targetUrl = `https://www.keyescape.com/controller/run_proc.php`;
-            const proxyUrl = 'https://cors.eu.org/' + targetUrl;
-
+        async function fetchDynamicTimeNums(branchKey, themeKey, requestId) {
             try {
-                // 키이스케이프 서버가 요구하는 POST 데이터 형식
-                const formData = new URLSearchParams();
-                formData.append('t', 'get_theme_time');
-                formData.append('date', targetDateStr);
-                formData.append('zizumNum', zizumNum);
-                formData.append('themeNum', themeNum);
-                formData.append('endDay', '0');
-                
-                const response = await fetch(proxyUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: formData.toString()
-                });
-                
-                const responseText = await response.text();
-                
-                try {
-                    const jsonData = JSON.parse(responseText);
-                    
-                    if (jsonData.status && jsonData.data && jsonData.data.length > 0) {
-                        return applyTimeItems(jsonData.data);
-                    } else {
-                        markCurrentThemeUnavailable();
-                        return false;
-                    }
-                } catch (parseErr) {
-                    markCurrentThemeUnavailable();
+                const scheduleData = await loadScheduleData();
+                if (requestId !== scheduleRequestId) return false;
+                if (!scheduleData || scheduleData.date !== targetDateStr) {
+                    markCurrentThemeUnavailable('해당 예약일의 시간표 갱신을 기다리고 있습니다.');
                     return false;
                 }
+                const branch = scheduleData.branches?.[branchKey];
+                const status = branch?.themeStatus?.[themeKey];
+                const items = branch?.themes?.[themeKey];
+                currentTheme.scheduleCheckedAt = scheduleData.checkedAt || '';
+                if (status?.state === 'not_open') {
+                    const opensAt = Date.parse(status.opensAt);
+                    const waiting = !Number.isFinite(opensAt) || Date.now() >= opensAt;
+                    markCurrentThemeUnavailable(waiting
+                        ? '예약 오픈 후 시간표 갱신을 기다리고 있습니다.'
+                        : `예약 오픈 전입니다. 오픈 시간: ${currentBranch.openTime} (한국 시간)`);
+                    return false;
+                }
+                if (status?.state === 'empty') {
+                    markCurrentThemeUnavailable('해당 예약일에 등록된 시간이 없습니다.');
+                    return false;
+                }
+                if (applyTimeItems(items)) return true;
+                markCurrentThemeUnavailable('시간표 갱신을 기다리고 있습니다. 다시 조회해주세요.');
+                return false;
             } catch (err) {
+                if (requestId !== scheduleRequestId) return false;
+                console.error('Schedule load failed:', err);
                 markCurrentThemeUnavailable();
                 return false;
             }
         }
 
+        function retrySchedule() {
+            if (!currentBranch || !currentTheme) return;
+            const themeKey = Object.keys(currentBranch.themes).find(key => currentBranch.themes[key] === currentTheme);
+            scheduleDataPromise = null;
+            selectTheme(themeKey);
+        }
+
         async function selectTheme(themeKey, btnElement) {
+            const requestId = ++scheduleRequestId;
             currentTheme = currentBranch.themes[themeKey];
             currentTime = null;
             currentNum = null;
             currentTimeIndex = null;
+            currentTheme.scheduleState = 'loading';
+            currentTheme.scheduleMessage = '시간표 불러오는 중...';
+            currentTheme.scheduleCheckedAt = '';
+            updateStatus();
 
-            document.querySelectorAll('#themeWrapper button').forEach(btn => btn.classList.remove('active'));
-            if (btnElement) btnElement.classList.add('active');
+            document.querySelectorAll('#themeWrapper button').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn === btnElement || (!btnElement && btn.textContent === currentTheme.name)) btn.classList.add('active');
+            });
 
             document.getElementById('form-themeName').value = currentTheme.name;
             document.getElementById('form-themeNum').value = currentTheme.themeNum;
@@ -1105,7 +1142,7 @@
 
             const timeWrapper = document.getElementById('timeWrapper');
             // 로딩 UI 표시
-            timeWrapper.innerHTML = `<div class="time-container active"><h3 style="text-align: center; margin-top: 20px;"><span class="highlight-text">${currentTheme.name}</span> 스케줄 실시간으로 불러오는 중... ⏳</h3></div>`;
+            timeWrapper.innerHTML = `<div class="time-container active"><h3><span class="highlight-text">${escapeHtml(currentTheme.name)}</span> 시간표 불러오는 중...</h3></div>`;
             timeWrapper.style.display = 'block';
 
             setTimeout(() => {
@@ -1113,7 +1150,8 @@
             }, 100);
 
             // 실시간 스케줄 불러오기
-            await fetchDynamicTimeNums(branchKey, themeKey);
+            await fetchDynamicTimeNums(branchKey, themeKey, requestId);
+            if (requestId !== scheduleRequestId) return;
 
             // 로딩 끝난 뒤 그려주기
             renderTimeGrid();
@@ -1124,8 +1162,24 @@
             const wrapper = document.getElementById('timeWrapper');
 
             let html = `<div class="time-container active">
-                            <h3><span class="highlight-text">${currentTheme.name}</span> 시간 선택 (실시간)</h3>
-                            <div class="time-grid">`;
+                            <h3><span class="highlight-text">${escapeHtml(currentTheme.name)}</span> 시간 선택</h3>`;
+            if (currentTheme.scheduleCheckedAt) {
+                const checkedAt = new Date(currentTheme.scheduleCheckedAt);
+                if (Number.isFinite(checkedAt.getTime())) {
+                    const label = new Intl.DateTimeFormat('ko-KR', {
+                        timeZone: 'Asia/Seoul', month: 'numeric', day: 'numeric',
+                        hour: '2-digit', minute: '2-digit', hour12: false
+                    }).format(checkedAt);
+                    html += `<p class="schedule-status">${escapeHtml(label)} 기준</p>`;
+                }
+            }
+            html += `<div class="schedule-actions"><button type="button" onclick="retrySchedule()" title="시간표 다시 조회" aria-label="시간표 다시 조회">&#8635;</button><a href="https://www.keyescape.com/reservation1.php" target="_blank" rel="noopener noreferrer">공식 예약 페이지</a></div>`;
+            if (currentTheme.scheduleState !== 'ready') {
+                html += `<p class="schedule-status" role="status">${escapeHtml(currentTheme.scheduleMessage)}</p></div>`;
+                wrapper.innerHTML = html;
+                return;
+            }
+            html += '<div class="time-grid">';
 
             for (let i = 0; i < currentTheme.times.length; i++) {
                 const isDisabled = isCurrentTimeDisabled(i);
@@ -1173,6 +1227,9 @@
             if (currentBranch && currentTheme && currentTime && !isCurrentTimeDisabled(currentTimeIndex)) {
                 statusText.innerHTML = `예약일: <span class="highlight-text">${targetDateStr}</span> <br> 구성: <span class="highlight-text">${currentBranch.name}</span> - <span class="highlight-text">${currentTheme.name}</span> - <span class="highlight-text">${currentTime}</span>`;
                 submitBtn.disabled = false;
+            } else if (currentTheme && currentTheme.scheduleState !== 'ready') {
+                statusText.innerText = currentTheme.scheduleMessage;
+                submitBtn.disabled = true;
             } else if (currentTheme) {
                 statusText.innerText = "예약할 시간을 선택해주세요.";
                 submitBtn.disabled = true;
