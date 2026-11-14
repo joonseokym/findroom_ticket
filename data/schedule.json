@@ -1,6 +1,6 @@
 {
   "date": "2026-11-20",
-  "checkedAt": "2026-11-14T11:29:03+09:00",
+  "checkedAt": "2026-11-14T18:19:13+09:00",
   "branches": {
     "MEMORY": {
       "themes": {
@@ -490,22 +490,298 @@
     },
     "GANGNAM_ST": {
       "themes": {
-        "MONEY_ESTATE": [],
-        "MY_ROOM": [],
-        "NOSTALGIA": []
+        "MONEY_ESTATE": [
+          {
+            "time": "09:50",
+            "num": "2210",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "10:50",
+            "num": "2287",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "11:50",
+            "num": "2211",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "12:50",
+            "num": "2212",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "13:50",
+            "num": "2288",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "14:50",
+            "num": "2213",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "15:50",
+            "num": "2214",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "16:50",
+            "num": "2289",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:50",
+            "num": "2215",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "18:50",
+            "num": "2216",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "19:50",
+            "num": "2290",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "20:50",
+            "num": "2217",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "21:50",
+            "num": "2291",
+            "enable": "N",
+            "sale_txt": ""
+          }
+        ],
+        "MY_ROOM": [
+          {
+            "time": "09:45",
+            "num": "2383",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "10:30",
+            "num": "2315",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "11:20",
+            "num": "2384",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "12:05",
+            "num": "2316",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "12:50",
+            "num": "2385",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "13:40",
+            "num": "2386",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "14:25",
+            "num": "2317",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "15:10",
+            "num": "2318",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "16:00",
+            "num": "2387",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "16:45",
+            "num": "2388",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:30",
+            "num": "2319",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "18:20",
+            "num": "2389",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "19:05",
+            "num": "2320",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "19:50",
+            "num": "2390",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "20:40",
+            "num": "2321",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "21:25",
+            "num": "2391",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "22:10",
+            "num": "2322",
+            "enable": "Y",
+            "sale_txt": ""
+          }
+        ],
+        "NOSTALGIA": [
+          {
+            "time": "09:35",
+            "num": "2433",
+            "enable": "Y",
+            "sale_txt": ""
+          },
+          {
+            "time": "10:25",
+            "num": "2434",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "11:15",
+            "num": "2435",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "12:05",
+            "num": "2436",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "12:55",
+            "num": "2437",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "13:45",
+            "num": "2438",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "14:35",
+            "num": "2439",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "15:25",
+            "num": "2440",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "16:15",
+            "num": "2441",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:05",
+            "num": "2442",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "17:55",
+            "num": "2443",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "18:45",
+            "num": "3477",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "19:35",
+            "num": "2444",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "20:25",
+            "num": "2445",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "21:15",
+            "num": "2446",
+            "enable": "N",
+            "sale_txt": ""
+          },
+          {
+            "time": "22:05",
+            "num": "2447",
+            "enable": "N",
+            "sale_txt": ""
+          }
+        ]
       },
       "themeStatus": {
         "MONEY_ESTATE": {
-          "state": "not_open",
-          "opensAt": "2026-11-14T11:30:00+09:00"
+          "state": "ready"
         },
         "MY_ROOM": {
-          "state": "not_open",
-          "opensAt": "2026-11-14T11:30:00+09:00"
+          "state": "ready"
         },
         "NOSTALGIA": {
-          "state": "not_open",
-          "opensAt": "2026-11-14T11:30:00+09:00"
+          "state": "ready"
         }
       }
     },
@@ -595,7 +871,7 @@
           {
             "time": "12:10",
             "num": "2070",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -637,7 +913,7 @@
           {
             "time": "21:30",
             "num": "2077",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -687,7 +963,7 @@
           {
             "time": "17:30",
             "num": "3489",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -699,7 +975,7 @@
           {
             "time": "21:15",
             "num": "3491",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           }
         ],
@@ -737,7 +1013,7 @@
           {
             "time": "17:15",
             "num": "2133",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -793,13 +1069,13 @@
           {
             "time": "14:40",
             "num": "1931",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
             "time": "15:35",
             "num": "1932",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -823,7 +1099,7 @@
           {
             "time": "19:15",
             "num": "1936",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -900,7 +1176,7 @@
           {
             "time": "19:00",
             "num": "1741",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -912,7 +1188,7 @@
           {
             "time": "22:00",
             "num": "1776",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           }
         ],
@@ -968,13 +1244,13 @@
           {
             "time": "20:35",
             "num": "1691",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
             "time": "21:55",
             "num": "1692",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           }
         ]
@@ -1030,7 +1306,7 @@
           {
             "time": "18:50",
             "num": "1529",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
@@ -1056,7 +1332,7 @@
           {
             "time": "11:30",
             "num": "1479",
-            "enable": "N",
+            "enable": "Y",
             "sale_txt": ""
           },
           {
@@ -1074,7 +1350,7 @@
           {
             "time": "16:00",
             "num": "1482",
-            "enable": "Y",
+            "enable": "N",
             "sale_txt": ""
           },
           {
